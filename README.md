@@ -37,6 +37,12 @@
 
 ## Actores
 
+### 1. Mesero
+
+### 2. Cocina
+
+### 3. Administrador
+
 ---
 
 ## Servicios
