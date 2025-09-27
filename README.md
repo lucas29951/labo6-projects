@@ -52,8 +52,12 @@
 ### 8. Restaurant Order-Taking App
 **Enlace:** https://play.google.com/store/apps/details?id=com.globalfoodsoft.restaurantapp&hl=es_419  
 
-### 2. Fudo
+### 9. Fudo
 **Enlace:** https://play.google.com/store/apps/details?id=do.fu.app 
+
+**Funcionalidades principales:**
+- Gestion de ordenes en tiempo real
+- Analisis de desempeño
 
 ---
 
