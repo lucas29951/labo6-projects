@@ -49,8 +49,19 @@
 ### 7. Menula - Restaurant POS
 **Enlace:** https://play.google.com/store/apps/details?id=app.menula.android&hl=es_419 
 
+**Funcionalidades principales:**
+- Menu digital interactivo
+- Gestion de productos
+- Relacion con cocina
+- Control de stock
+
 ### 8. Restaurant Order-Taking App
 **Enlace:** https://play.google.com/store/apps/details?id=com.globalfoodsoft.restaurantapp&hl=es_419  
+
+**Funcionalidades principales:**
+- Aplicacion especifica para toma de pedidos
+- Categorias de productos
+- Personalizacion de pedidos
 
 ### 9. Fudo
 **Enlace:** https://play.google.com/store/apps/details?id=do.fu.app 
