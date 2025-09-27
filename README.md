@@ -66,15 +66,19 @@
 ### 1. Mesero
 - Toma pedidos en las mesa
 - Gestiona varias mesas a la vez
+- Cierra cuentas y procesa los pagos
 
 ### 2. Cocina
 - Recibe ordenes de los meseros
 - Marca pedidos como completados
 - Comunica falta de productos
+- Gestiona los tiempos de preparacion
 
 ### 3. Administrador
 - Gestiona el menu y precios
 - Genera reportes y analisis
+- Analiza las ventas y rendimiento
+- Gestiona turnos y empleados
 
 ---
 
