@@ -9,6 +9,12 @@
 ### 1. Comanda Electrónica
 **Enlace:** https://play.google.com/store/apps/details?id=ricci.android.comandasocket&hl=es_419 
 
+**Funcionalidades principales:**
+- Toma de pedidos en mesa
+- Comunicacion en tiempo real con la cocina
+- Gestion de mesas y turnos
+- Calculo de consumos
+
 ### 2. Comanda Electrónica - Pedidos
 **Enlace:** https://play.google.com/store/apps/details?id=com.riccimobile.comandaonline 
 
