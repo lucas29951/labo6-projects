@@ -43,8 +43,19 @@
 ### 5. RePOS
 **Enlace:** https://play.google.com/store/apps/details?id=com.repos&hl=es_419 
 
+**Funcionalidades principales:**
+- Sistema POS completo
+- Gestion de multiples locales
+- Control de empleados
+- Analisis de ventas
+
 ### 6. DOYO - 360 Restaurant App
 **Enlace:** https://play.google.com/store/apps/details?id=com.app.doyourorder&hl=es_419  
+
+**Funcionalidades principales:**
+- Sistema completo para restaurantes
+- Pedidos por codigo QR
+- Reservas de mesas
 
 ### 7. Menula - Restaurant POS
 **Enlace:** https://play.google.com/store/apps/details?id=app.menula.android&hl=es_419 
