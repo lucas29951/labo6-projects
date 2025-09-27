@@ -89,6 +89,7 @@
 - Toma pedidos en las mesa
 - Gestiona varias mesas a la vez
 - Cierra cuentas y procesa los pagos
+- Comunica necesidades especiales a la cocina
 
 ### 2. Cocina
 - Recibe ordenes de los meseros
