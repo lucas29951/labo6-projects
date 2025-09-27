@@ -60,10 +60,17 @@
 ## Actores
 
 ### 1. Mesero
+- Toma pedidos en las mesa
+- Gestiona varias mesas a la vez
 
 ### 2. Cocina
+- Recibe ordenes de los meseros
+- Marca pedidos como completados
+- Comunica falta de productos
 
 ### 3. Administrador
+- Gestiona el menu y precios
+- Genera reportes y analisis
 
 ---
 
