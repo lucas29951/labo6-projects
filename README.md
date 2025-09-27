@@ -1,3 +1,9 @@
+# Conociendo el Dominio: App de Comandas
+
+- Identificamos las funcionalidades principales de apps que ya existan
+- Definimos los actores del sistema
+- Definimos los servicios para la aplicacion
+
 ## Aplicaciones Consultadas
 
 ### 1. Comanda Electrónica
@@ -26,3 +32,11 @@
 
 ### 2. Fudo
 **Enlace:** https://play.google.com/store/apps/details?id=do.fu.app 
+
+---
+
+## Actores
+
+---
+
+## Servicios
