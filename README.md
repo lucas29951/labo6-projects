@@ -18,6 +18,11 @@
 ### 2. Comanda Electrónica - Pedidos
 **Enlace:** https://play.google.com/store/apps/details?id=com.riccimobile.comandaonline 
 
+**Funcionalidades principales:**
+- Sistema de pedidos online
+- Relacion con cocina y bar
+- Reportes de ventas
+
 ### 3. Take It Easy
 **Enlace:** https://play.google.com/store/apps/details?id=com.takeiteasy&hl=es_419
 
