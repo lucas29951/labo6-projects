@@ -26,8 +26,19 @@
 ### 3. Take It Easy
 **Enlace:** https://play.google.com/store/apps/details?id=com.takeiteasy&hl=es_419
 
+**Funcionalidades principales:**
+- Codigo QR para pedidos
+- Autogestion por parte del cliente
+- Integracion con metodos de pago
+- Gestion de inventario
+
 ### 4. Comandera
 **Enlace:** https://play.google.com/store/apps/details?id=com.devramirez.bussoft.comandera&hl=es_419  
+
+**Funcionalidades principales:**
+- Interfaz para meseros
+- Division de pagos
+- Control de tiempo por mesa
 
 ### 5. RePOS
 **Enlace:** https://play.google.com/store/apps/details?id=com.repos&hl=es_419 
