@@ -218,3 +218,10 @@
 - **Gestión de picos de tráfico:** (horarios pico) y degradación controlada del servicio.
 - **Regulatorio:** protección de datos (PII), medios de pago y facturación local.
 - **Conectividad intermitente en el salón:** diseño offline-first para el staff.
+
+
+## 🗄️ Esquema de Base de Datos - App Camarero
+
+- **Diagrama interactivo:** [dbdiagram.io](https://dbdiagram.io/d/DB-App-Camarero-68e12497d2b621e42241baa3)
+
+<img width="1659" height="1054" alt="DB - App Camarero" src="https://github.com/user-attachments/assets/69f320c4-a0cc-455c-9977-347321ecf281" />
