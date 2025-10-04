@@ -225,3 +225,8 @@
 - **Diagrama interactivo:** [dbdiagram.io](https://dbdiagram.io/d/DB-App-Camarero-68e12497d2b621e42241baa3)
 
 <img width="1303" height="1029" alt="DB - App Camarero" src="https://github.com/user-attachments/assets/96b400c9-3e8c-4a0b-8f80-cb02f4112b9e" />
+
+
+## Figma
+
+Enlace: https://www.figma.com/design/cSS9EGbwuacVvSXPpHTIaC/ComandAR-App?m=auto&t=vxTHqgZowMDZlVue-6
