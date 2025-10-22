@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">comandar</string>
+    <string name="app_name">ComandAR</string>
 
+    <!--  LOGIN VIEW STRINGS  -->
     <string name="title_login">Iniciar sesión</string>
     <string name="email_input">Correo electrónico</string>
     <string name="password_input">Contraseña</string>
@@ -8,6 +9,7 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="register_link">¿No tienes una cuenta? Registrate</string>
 
+    <!--  REGISTER VIEW STRINGS  -->
     <string name="title_register">Crear cuenta</string>
     <string name="name_input">Nombre/s</string>
     <string name="lastname_input">Apellido/s</string>
@@ -15,42 +17,52 @@
     <string name="photo_input">Seleccione una foto de perfil...</string>
     <string name="register_button">Crear cuenta</string>
 
+    <!--  PROFILE VIEW STRINGS  -->
     <string name="title_profile">Perfil</string>
-    <string name="example_name">Carlos</string>
-    <string name="example_job">Camarero</string>
-    <string name="example_email">carlos@restaurante.com</string>
     <string name="infosec_title">Información</string>
     <string name="tables_subtitle">Mesas asignadas</string>
-    <string name="example_table_numbers">3</string>
     <string name="contact_subtitle">Contacto</string>
-    <string name="example_contact_phone">+34 666 777 888</string>
     <string name="accountsec_title">Cuenta</string>
     <string name="edit_profile_subtitle">Editar perfil</string>
     <string name="logout_button">Cerrar sesión</string>
 
+    <!--  RESUME ORDER VIEW STRINGS  -->
     <string name="title_resume">Resumen del Pedido</string>
-    <string name="example_table_number">Mesa 7</string>
     <string name="detailsec_title">Detalles del Pedido</string>
     <string name="subtotal_subtitle">Subtotal</string>
     <string name="taxes_subtitle">Impuestos (7%)</string>
     <string name="total_subtitle">Total</string>
-    <string name="example_subtotal">$35.00</string>
-    <string name="example_taxes">$2.45</string>
-    <string name="example_total">$37.45</string>
     <string name="paysec_title">Opciones de pago</string>
     <string name="cobro_subtitle">Cobro total</string>
     <string name="divide_subtitle">Dividir por personas</string>
     <string name="pay_confirm_button">Confirmar pago</string>
 
+    <!--  PRODUCT DETAIL VIEW STRINGS  -->
     <string name="title_product_detail">Detalle de Producto</string>
-    <string name="example_product_name">Taco de Carnitas</string>
-    <string name="example_product_category">Tacos</string>
-    <string name="example_product_description">Taco de carnitas con cebolla, cilantro y salsa roja. Servido con limones y rabanitos.</string>
     <string name="notes_subtitle">Notas personalizadas</string>
-    <string name="example_product_price">$3.50</string>
-    <string name="example_product_count">1</string>
     <string name="increase_button">+</string>
     <string name="decrease_button">-</string>
     <string name="add_button">Agregar al Pedido</string>
 
+    <!--  ITEM TABLE LIST STRINGS  -->
+    <string name="assign_button">Asignar</string>
+    <string name="unassign_button">Desasignar</string>
+
+    <!--  EXAMPLE VALUE STRINGS  -->
+    <string name="example_name">Carlos</string>
+    <string name="example_job">Camarero</string>
+    <string name="example_email">carlos@restaurante.com</string>
+    <string name="example_table_numbers">3</string>
+    <string name="example_contact_phone">+34 666 777 888</string>
+    <string name="example_table_number">Mesa 7</string>
+    <string name="example_subtotal">$35.00</string>
+    <string name="example_taxes">$2.45</string>
+    <string name="example_total">$37.45</string>
+    <string name="example_product_name">Taco de Carnitas</string>
+    <string name="example_product_category">Tacos</string>
+    <string name="example_product_description">Taco de carnitas con cebolla, cilantro y salsa roja. Servido con limones y rabanitos.</string>
+    <string name="example_product_price">$3.50</string>
+    <string name="example_product_count">1</string>
+    <string name="example_status_table_description">En servicio por camarero</string>
+    <string name="example_status_table">Estado: Ocupada</string>
 </resources>
