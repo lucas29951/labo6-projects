@@ -44,6 +44,9 @@
     <string name="decrease_button">-</string>
     <string name="add_button">Agregar al Pedido</string>
 
+    <!--  TABLES VIEW STRINGS  -->
+    <string name="title_table">Mesas</string>
+
     <!--  ITEM TABLE LIST STRINGS  -->
     <string name="assign_button">Asignar</string>
     <string name="unassign_button">Desasignar</string>
