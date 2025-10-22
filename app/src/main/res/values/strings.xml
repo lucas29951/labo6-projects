@@ -68,4 +68,7 @@
     <string name="example_product_count">1</string>
     <string name="example_status_table_description">En servicio por camarero</string>
     <string name="example_status_table">Estado: Ocupada</string>
+    <string name="example_order_product_name">Cerveza Artesanal IPA</string>
+    <string name="example_order_product_count">Cantidad: 2</string>
+    <string name="example_order_product_subtotal">$12.00</string>
 </resources>
