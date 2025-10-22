@@ -41,4 +41,16 @@
     <string name="cobro_subtitle">Cobro total</string>
     <string name="divide_subtitle">Dividir por personas</string>
     <string name="pay_confirm_button">Confirmar pago</string>
+
+    <string name="title_product_detail">Detalle de Producto</string>
+    <string name="example_product_name">Taco de Carnitas</string>
+    <string name="example_product_category">Tacos</string>
+    <string name="example_product_description">Taco de carnitas con cebolla, cilantro y salsa roja. Servido con limones y rabanitos.</string>
+    <string name="notes_subtitle">Notas personalizadas</string>
+    <string name="example_product_price">$3.50</string>
+    <string name="example_product_count">1</string>
+    <string name="increase_button">+</string>
+    <string name="decrease_button">-</string>
+    <string name="add_button">Agregar al Pedido</string>
+
 </resources>
