@@ -14,4 +14,17 @@
     <string name="phone_input">Telefono o celular</string>
     <string name="photo_input">Seleccione una foto de perfil...</string>
     <string name="register_button">Crear cuenta</string>
+
+    <string name="title_profile">Perfil</string>
+    <string name="example_name">Carlos</string>
+    <string name="example_job">Camarero</string>
+    <string name="example_email">carlos@restaurante.com</string>
+    <string name="infosec_title">Información</string>
+    <string name="tables_subtitle">Mesas asignadas</string>
+    <string name="example_table_numbers">3</string>
+    <string name="contact_subtitle">Contacto</string>
+    <string name="example_contact_phone">+34 666 777 888</string>
+    <string name="accountsec_title">Cuenta</string>
+    <string name="edit_profile_subtitle">Editar perfil</string>
+    <string name="logout_button">Cerrar sesión</string>
 </resources>
