@@ -27,4 +27,18 @@
     <string name="accountsec_title">Cuenta</string>
     <string name="edit_profile_subtitle">Editar perfil</string>
     <string name="logout_button">Cerrar sesión</string>
+
+    <string name="title_resume">Resumen del Pedido</string>
+    <string name="example_table_number">Mesa 7</string>
+    <string name="detailsec_title">Detalles del Pedido</string>
+    <string name="subtotal_subtitle">Subtotal</string>
+    <string name="taxes_subtitle">Impuestos (7%)</string>
+    <string name="total_subtitle">Total</string>
+    <string name="example_subtotal">$35.00</string>
+    <string name="example_taxes">$2.45</string>
+    <string name="example_total">$37.45</string>
+    <string name="paysec_title">Opciones de pago</string>
+    <string name="cobro_subtitle">Cobro total</string>
+    <string name="divide_subtitle">Dividir por personas</string>
+    <string name="pay_confirm_button">Confirmar pago</string>
 </resources>
