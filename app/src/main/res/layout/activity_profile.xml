@@ -105,7 +105,7 @@
         android:paddingHorizontal="16dp">
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/designed_tables_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tables_subtitle"
@@ -115,7 +115,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView126"
+            android:id="@+id/tables_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/example_table_numbers"
@@ -132,7 +132,7 @@
         android:paddingHorizontal="16dp">
 
         <TextView
-            android:id="@+id/textView125"
+            android:id="@+id/contact_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/contact_subtitle"
@@ -142,7 +142,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView1266"
+            android:id="@+id/contact_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/example_contact_phone"
@@ -154,7 +154,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/account_section_title"
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:paddingHorizontal="16dp"
@@ -170,7 +170,7 @@
         android:paddingHorizontal="16dp">
 
         <TextView
-            android:id="@+id/textView1265"
+            android:id="@+id/edit_profile_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit_profile_subtitle"
@@ -180,7 +180,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView150"
+            android:id="@+id/icon_next"
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -191,7 +191,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"

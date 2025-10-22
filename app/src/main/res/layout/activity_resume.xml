@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/arrow_back_24px" />
 
         <TextView
-            android:id="@+id/register_title"
+            android:id="@+id/resume_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -37,7 +37,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/register_titles"
+        android:id="@+id/table_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -51,15 +51,15 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/list_products_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_titles" />
+        app:layout_constraintTop_toBottomOf="@+id/table_number" />
 
     <TextView
-        android:id="@+id/register_titles2"
+        android:id="@+id/details_section_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -70,7 +70,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
+        app:layout_constraintTop_toBottomOf="@+id/list_products_order" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout1"
@@ -79,10 +79,10 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_titles2">
+        app:layout_constraintTop_toBottomOf="@+id/details_section_title">
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/subtotal_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/subtotal_subtitle"
@@ -91,7 +91,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView126"
+            android:id="@+id/subtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -101,17 +101,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView125"
+            android:id="@+id/taxes_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/taxes_subtitle"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toBottomOf="@+id/subtotal_subtitle" />
 
         <TextView
-            android:id="@+id/textView1264"
+            android:id="@+id/taxes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -119,21 +119,21 @@
             android:text="@string/example_taxes"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView126" />
+            app:layout_constraintTop_toBottomOf="@+id/subtotal" />
 
         <TextView
-            android:id="@+id/textView1255"
+            android:id="@+id/total_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/total_subtitle"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView125"
+            app:layout_constraintTop_toBottomOf="@+id/taxes_subtitle"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/textView12644"
+            android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -141,13 +141,13 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView1264"
+            app:layout_constraintTop_toBottomOf="@+id/taxes"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/register_titles24"
+        android:id="@+id/pay_option_section_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -167,10 +167,10 @@
         android:paddingHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_titles24">
+        app:layout_constraintTop_toBottomOf="@+id/pay_option_section_title">
 
         <TextView
-            android:id="@+id/textView1265"
+            android:id="@+id/total_pay_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cobro_subtitle"
@@ -180,7 +180,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBox_total_pay"
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +199,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraint_layout2">
 
         <TextView
-            android:id="@+id/textView12655"
+            android:id="@+id/divide_pay_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/divide_subtitle"
@@ -209,7 +209,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/switch_divide_pay"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -219,7 +219,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_pay_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
