@@ -48,7 +48,7 @@ public class AppRepository {
 
     // --- GESTIÓN DE PERFIL ---
     public void registrarCamarero(Camarero camarero) {
-        AppDatabase.databaseWriteExecutor.execute(() -> camareroDao.insert(camarero));
+        camareroDao.insert(camarero);
     }
 
     public void actualizarPerfilCamarero(Camarero camarero) {

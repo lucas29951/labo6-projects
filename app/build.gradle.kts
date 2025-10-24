@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation("at.favre.lib:bcrypt:0.10.2")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
