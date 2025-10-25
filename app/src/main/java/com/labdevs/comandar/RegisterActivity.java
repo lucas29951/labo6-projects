@@ -1,7 +1,13 @@
 package com.labdevs.comandar;
 
+import static androidx.activity.result.contract.ActivityResultContracts.*;
+
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.labdevs.comandar.databinding.ActivityRegisterBinding;
@@ -12,11 +18,31 @@ import com.labdevs.comandar.viewmodels.RegisterViewModel;
     private ActivityRegisterBinding binding;
     private RegisterViewModel viewModel;
 
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        pickMedia = registerForActivityResult(
+                new PickVisualMedia(),
+                uri -> {
+                    if (uri != null) {
+                        binding.inputRegisterImage.setImageURI(uri);
+                        binding.inputRegisterUri.setText(uri.getPath());
+                    } else {
+                        Toast.makeText(this, "No se selecciono una imagen", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        binding.inputRegisterImage.setOnClickListener(v -> {
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+        });
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
@@ -26,7 +52,8 @@ import com.labdevs.comandar.viewmodels.RegisterViewModel;
             String email = binding.inputRegisterEmail.getText().toString().trim();
             String password = binding.inputRegisterPassword.getText().toString();
             String telefono = binding.inputRegisterPhone.getText().toString().trim();
-            viewModel.registrarCamarero(nombre, apellido, email, password, telefono);
+            String imagen = binding.inputRegisterUri.getText().toString().trim();
+            viewModel.registrarCamarero(nombre, apellido, email, password, telefono, imagen);
         });
 
         viewModel.getRegistroExitoso().observe(this, exitoso -> {
