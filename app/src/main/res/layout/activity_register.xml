@@ -9,108 +9,130 @@
     android:paddingHorizontal="16dp"
     tools:context=".RegisterActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/icon_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:srcCompat="@drawable/arrow_back_24px"/>
-
-        <TextView
-            android:id="@+id/register_title"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_register"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginRight="20dp"/>
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-    <EditText
-        android:id="@+id/input_register_name"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
-        android:paddingHorizontal="12dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/name_input"/>
+                <ImageView
+                    android:id="@+id/icon_back"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/arrow_back_24px"/>
 
-    <EditText
-        android:id="@+id/input_register_lastname"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:paddingHorizontal="12dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/lastname_input"/>
+                <TextView
+                    android:id="@+id/register_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_register"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:layout_marginRight="20dp"/>
 
-    <EditText
-        android:id="@+id/input_register_email"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
-        android:paddingHorizontal="12dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="@string/email_input"/>
+            </LinearLayout>
 
-    <EditText
-        android:id="@+id/input_register_password"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:paddingHorizontal="12dp"
-        app:passwordToggleEnabled="true"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="@string/password_input"/>
+            <EditText
+                android:id="@+id/input_register_name"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="12dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/name_input"/>
 
-    <EditText
-        android:id="@+id/input_register_phone"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
-        android:paddingHorizontal="12dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint="@string/phone_input"/>
+            <EditText
+                android:id="@+id/input_register_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:paddingHorizontal="12dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/lastname_input"/>
 
-    <EditText
-        android:id="@+id/input_register_photo"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:paddingHorizontal="12dp"
-        android:ems="10"
-        android:hint="@string/photo_input"/>
+            <EditText
+                android:id="@+id/input_register_email"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="12dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:hint="@string/email_input"/>
 
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/register_button"
-        app:cornerRadius="5dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"/>
+            <EditText
+                android:id="@+id/input_register_password"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:paddingHorizontal="12dp"
+                app:passwordToggleEnabled="true"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:hint="@string/password_input"/>
+
+            <EditText
+                android:id="@+id/input_register_phone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="12dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:ems="10"
+                android:inputType="phone"
+                android:hint="@string/phone_input"/>
+
+            <ImageButton
+                android:id="@+id/input_register_image"
+                android:layout_width="match_parent"
+                android:layout_height="184dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:paddingHorizontal="12dp"
+                android:background="@color/white"
+                android:ems="10"
+                app:srcCompat="@drawable/drag_drop_images" />
+
+            <TextView
+                android:id="@+id/input_register_uri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:paddingHorizontal="12dp"
+                android:visibility="visible"
+                android:text="@string/example_uri_image" />
+
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register_button"
+                app:cornerRadius="5dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
