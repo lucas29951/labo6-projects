@@ -28,4 +28,8 @@ public interface MesaDao {
     // Útil para una pantalla de "Mis Mesas"
     @Query("SELECT * FROM mesas WHERE camarero_id = :camareroId ORDER BY numero_mesa ASC")
     LiveData<List<Mesa>> getMesasByCamarero(int camareroId);
+
+    // Nuevo método para inserción en lote para poblar la BD
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Mesa> mesas);
 }

@@ -25,4 +25,8 @@ public interface CamareroDao {
     // Útil para recuperar el perfil una vez logueado
     @Query("SELECT * FROM camareros WHERE camarero_id = :id LIMIT 1")
     LiveData<Camarero> getCamareroById(int id);
+
+    //Usado para poblar la BD, inserta el Camarero y devuelve el id
+    @Insert
+    long insertAndGetId(Camarero camarero);
 }
