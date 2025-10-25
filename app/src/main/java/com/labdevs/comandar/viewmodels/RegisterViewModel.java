@@ -26,8 +26,8 @@ public class RegisterViewModel extends AndroidViewModel {
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getRegistroExitoso() { return registroExitoso; }
 
-    public void registrarCamarero(String nombre, String apellido, String email, String password, String telefono) {
-        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || password.isEmpty()) {
+    public void registrarCamarero(String nombre, String apellido, String email, String password, String telefono, String imagen) {
+        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || password.isEmpty() || imagen.isEmpty()) {
             error.setValue("Todos los campos son obligatorios.");
             return;
         }
@@ -52,6 +52,7 @@ public class RegisterViewModel extends AndroidViewModel {
         nuevoCamarero.email = email;
         nuevoCamarero.passwordHash = hashedPassword;
         nuevoCamarero.numeroContacto = telefono;
+        nuevoCamarero.fotoUrl = imagen;
         nuevoCamarero.createdAt = new Date();
 
         AppDatabase.databaseWriteExecutor.execute(() -> {
