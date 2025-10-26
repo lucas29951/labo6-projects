@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
     public String saveImageToInternalStorage(Context context, Uri uri) throws IOException {
-        File imagesDir = new File(context.getFilesDir(), "images");
+        File imagesDir = new File(context.getFilesDir(), "profile_images");
 
         if (!imagesDir.exists()) {
             imagesDir.mkdir();
