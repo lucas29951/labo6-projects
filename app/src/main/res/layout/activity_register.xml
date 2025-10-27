@@ -115,16 +115,6 @@
                 android:ems="10"
                 app:srcCompat="@drawable/drag_drop_images" />
 
-            <TextView
-                android:id="@+id/input_register_uri"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:paddingHorizontal="12dp"
-                android:visibility="visible"
-                android:text="@string/example_uri_image" />
-
             <Button
                 android:id="@+id/button_register"
                 android:layout_width="match_parent"
