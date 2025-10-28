@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -18,6 +19,7 @@ import com.labdevs.comandar.data.entity.enums.EstadoMesa;
 import com.labdevs.comandar.data.model.MesaConCamarero;
 import com.labdevs.comandar.databinding.ItemMesaGridBinding;
 import com.labdevs.comandar.databinding.ItemMesaListBinding;
+import com.labdevs.comandar.utils.UiUtils;
 import com.labdevs.comandar.viewmodels.TablesViewModel;
 
 import java.util.Objects;
@@ -89,20 +91,20 @@ public class MesaAdapter extends ListAdapter<MesaConCamarero, RecyclerView.ViewH
         void bind(MesaConCamarero mesaConCamarero, int camareroLogueadoId) {
             Mesa mesa = mesaConCamarero.mesa;
 
-            binding.textMesaNumeroList.setText("Mesa " + mesa.numeroMesa);
-            binding.textMesaEstado.setText("Estado: " + mesa.estado.name());
+            binding.textMesaNumeroList.setText(context.getString(R.string.table_number_format, mesa.numeroMesa));
+            binding.textMesaEstado.setText(context.getString(R.string.table_status_format, mesa.estado.name()));
 
             if (mesa.camareroId != null) {
-                String nombreCompleto = mesaConCamarero.nombreCamarero + " " + mesaConCamarero.apellidoCamarero;
-                if (mesa.camareroId == camareroLogueadoId) {
-                    binding.textCamareroAsignado.setText("Asignada a ti (" + nombreCompleto.trim() + ")");
+                String nombreCompleto = (mesaConCamarero.nombreCamarero + " " + mesaConCamarero.apellidoCamarero).trim();
+                if (Integer.valueOf(camareroLogueadoId).equals(mesa.camareroId)) {
+                    binding.textCamareroAsignado.setText(context.getString(R.string.table_assigned_to_you, nombreCompleto));
                     binding.textCamareroAsignado.setTypeface(null, Typeface.BOLD);
                 } else {
-                    binding.textCamareroAsignado.setText("Atendida por: " + nombreCompleto.trim());
+                    binding.textCamareroAsignado.setText(context.getString(R.string.table_attended_by, nombreCompleto));
                     binding.textCamareroAsignado.setTypeface(null, Typeface.NORMAL);
                 }
             } else {
-                binding.textCamareroAsignado.setText("Disponible para asignar");
+                binding.textCamareroAsignado.setText(context.getString(R.string.table_available_to_assign));
                 binding.textCamareroAsignado.setTypeface(null, Typeface.ITALIC);
             }
 
@@ -137,22 +139,14 @@ public class MesaAdapter extends ListAdapter<MesaConCamarero, RecyclerView.ViewH
     }
 
     private void setCardColor(View view, EstadoMesa estado) {
-        int colorResId;
-        switch (estado) {
-            case libre:
-                colorResId = R.color.mesa_libre; // Verde
-                break;
-            case ocupada:
-                colorResId = R.color.mesa_ocupada; // Naranja
-                break;
-            case reservada:
-                colorResId = R.color.mesa_reservada; // Morado
-                break;
-            default:
-                colorResId = R.color.mesa_default; // Gris
-                break;
+        int colorResId = UiUtils.getColorForMesaEstado(estado);
+        // Si la vista es el CardView, usamos setCardBackgroundColor.
+        // Si es cualquier otra vista, usamos setBackgroundColor.
+        if (view instanceof CardView) {
+            ((CardView) view).setCardBackgroundColor(ContextCompat.getColor(context, colorResId));
+        } else {
+            view.setBackgroundColor(ContextCompat.getColor(context, colorResId));
         }
-        view.setBackgroundColor(ContextCompat.getColor(context, colorResId));
     }
 
     // --- DIFF_CALLBACK para ListAdapter ---

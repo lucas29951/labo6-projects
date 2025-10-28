@@ -47,6 +47,12 @@
     <!--  TABLES VIEW STRINGS  -->
     <string name="title_table">Mesas</string>
 
+    <string name="table_number_format">Mesa %02d</string>
+    <string name="table_status_format">Estado: %s</string>
+    <string name="table_assigned_to_you">Asignada a ti (%s)</string>
+    <string name="table_attended_by">Atendida por: %s</string>
+    <string name="table_available_to_assign">Disponible para asignar</string>
+
     <!--  ITEM TABLE LIST STRINGS  -->
     <string name="assign_button">Asignar</string>
     <string name="unassign_button">Desasignar</string>
