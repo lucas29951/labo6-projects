@@ -21,4 +21,13 @@ public interface PedidoDao {
     // Requisito: Al seleccionar una mesa, ver si ya tiene un pedido abierto.
     @Query("SELECT * FROM pedidos WHERE mesa_id = :mesaId AND estado != 'cerrado' LIMIT 1")
     LiveData<Pedido> getPedidoActivoPorMesa(int mesaId);
+
+    // --- NUEVO MÉTODO ---
+    // Este método es síncrono y debe ser llamado desde un hilo de fondo.
+    // Es perfecto para la lógica de negocio dentro del Repository.
+    @Query("SELECT * FROM pedidos WHERE mesa_id = :mesaId AND estado != 'cerrado' LIMIT 1")
+    Pedido getPedidoActivoPorMesaSync(int mesaId);
+
+    @Query("SELECT COUNT(*) FROM pedidos WHERE mesa_id = :mesaId AND estado != 'cerrado'")
+    int countPedidosActivosPorMesa(int mesaId);
 }

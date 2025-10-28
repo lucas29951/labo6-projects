@@ -8,9 +8,13 @@ public class ComandarApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Esta línea asegura que la instancia de la base de datos se cree
-        // al iniciar la aplicación, lo que ejecutará el callback 'onCreate'
-        // la primera vez para poblar los datos.
-        AppDatabase.getDatabase(this);
+        // Forzamos la inicialización y el poblado de la base de datos al inicio
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // Obtenemos la instancia, lo que prepara la BD
+            AppDatabase db = AppDatabase.getDatabase(this);
+            // Realizamos una operación de lectura inofensiva para forzar
+            // la ejecución del callback onCreate si es la primera vez.
+            db.camareroDao().getCamareroByEmail("");
+        });
     }
 }

@@ -5,9 +5,11 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.labdevs.comandar.data.entity.Mesa;
+import com.labdevs.comandar.data.model.MesaConCamarero;
 
 import java.util.List;
 
@@ -32,4 +34,12 @@ public interface MesaDao {
     // Nuevo método para inserción en lote para poblar la BD
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Mesa> mesas);
+
+    // --- NUEVO MÉTODO CON JOIN ---
+    @Transaction
+    @Query("SELECT mesas.*, camareros.nombre as nombreCamarero, camareros.apellido as apellidoCamarero " +
+            "FROM mesas " +
+            "LEFT JOIN camareros ON mesas.camarero_id = camareros.camarero_id " +
+            "ORDER BY mesas.numero_mesa ASC")
+    LiveData<List<MesaConCamarero>> getMesasConCamarero();
 }

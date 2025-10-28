@@ -22,9 +22,6 @@
             android:name=".ResumeActivity"
             android:exported="false" />
         <activity
-            android:name=".TablesActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity

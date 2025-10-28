@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.labdevs.comandar.data.database.AppDatabase;
 import com.labdevs.comandar.databinding.ActivityRegisterBinding;
 import com.labdevs.comandar.viewmodels.RegisterViewModel;
 
@@ -164,39 +166,46 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveImageInternally(Uri sourceUri) {
-        try {
-            File profileImagesDir = new File(getFilesDir(), "profile_images");
-            if (!profileImagesDir.exists()) {
-                profileImagesDir.mkdirs();
-            }
-            String extension = getExtensionFromUri(this, sourceUri);
-            if (extension == null) extension = "jpg";
-            String fileName = "profile_" + System.currentTimeMillis() + "." + extension;
-            File destinationFile = new File(profileImagesDir, fileName);
-
-            // --- AÑADIMOS EL ESCALADO ---
-            try (InputStream in = getContentResolver().openInputStream(sourceUri)) {
-                // 1. Decodificar el stream a un Bitmap
-                Bitmap originalBitmap = BitmapFactory.decodeStream(in);
-
-                // 2. Escalar el Bitmap a un tamaño manejable
-                Bitmap scaledBitmap = scaleBitmap(originalBitmap, MAX_IMAGE_SIZE);
-
-                // 3. Comprimir y guardar el Bitmap escalado
-                try (OutputStream out = new FileOutputStream(destinationFile)) {
-                    scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out); // Calidad 90 es un buen balance
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                File profileImagesDir = new File(getFilesDir(), "profile_images");
+                if (!profileImagesDir.exists()) {
+                    profileImagesDir.mkdirs();
                 }
+                String extension = getExtensionFromUri(this, sourceUri);
+                if (extension == null) extension = "jpg";
+                String fileName = "profile_" + System.currentTimeMillis() + "." + extension;
+                File destinationFile = new File(profileImagesDir, fileName);
+
+                // --- AÑADIMOS EL ESCALADO ---
+                try (InputStream in = getContentResolver().openInputStream(sourceUri)) {
+                    // 1. Decodificar el stream a un Bitmap
+                    Bitmap originalBitmap = BitmapFactory.decodeStream(in);
+
+                    // 2. Escalar el Bitmap a un tamaño manejable
+                    Bitmap scaledBitmap = scaleBitmap(originalBitmap, MAX_IMAGE_SIZE);
+
+                    // 3. Comprimir y guardar el Bitmap escalado
+                    try (OutputStream out = new FileOutputStream(destinationFile)) {
+                        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out); // Calidad 90 es un buen balance
+                    }
+                }
+
+                finalImagePath = destinationFile.getAbsolutePath();
+                Log.d("RegisterActivity", "Imagen guardada en: " + finalImagePath);
+                runOnUiThread(()->{
+                    binding.inputRegisterImage.setImageURI(Uri.fromFile(destinationFile)); // Muestra la imagen seleccionada
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                finalImagePath = null;
+                runOnUiThread(()->{
+                    Toast.makeText(this, "Error al guardar la imagen.", Toast.LENGTH_SHORT).show();
+                });
+
             }
-
-            finalImagePath = destinationFile.getAbsolutePath();
-            binding.inputRegisterImage.setImageURI(Uri.fromFile(destinationFile)); // Muestra la imagen seleccionada
-            Log.d("RegisterActivity", "Imagen guardada en: " + finalImagePath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error al guardar la imagen.", Toast.LENGTH_SHORT).show();
-            finalImagePath = null;
-        }
+        });
     }
 
     private Bitmap scaleBitmap(Bitmap bitmap, int maxSize) {

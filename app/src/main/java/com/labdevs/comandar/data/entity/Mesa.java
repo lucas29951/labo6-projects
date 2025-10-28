@@ -36,4 +36,15 @@ public class Mesa {
         this.capacidad = 4;
         this.estado = EstadoMesa.libre;
     }
+
+    public Mesa copy() {
+        Mesa newMesa = new Mesa();
+        newMesa.mesaId = this.mesaId;
+        newMesa.numeroMesa = this.numeroMesa;
+        newMesa.capacidad = this.capacidad;
+        newMesa.estado = this.estado;
+        newMesa.posicionMapa = this.posicionMapa;
+        newMesa.camareroId = this.camareroId;
+        return newMesa;
+    }
 }

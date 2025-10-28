@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="grey">#E7E7E7</color>
+    <color name="mesa_libre">#4CB362</color>
+    <color name="mesa_ocupada">#DFBE8F</color>
+    <color name="mesa_reservada">#DCA8EE</color>
+    <color name="mesa_default">#D7D7D7</color>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.labdevs.comandar.data.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -17,7 +18,10 @@ import com.labdevs.comandar.data.entity.DetallePedido;
 import com.labdevs.comandar.data.entity.Mesa;
 import com.labdevs.comandar.data.entity.Pedido;
 import com.labdevs.comandar.data.entity.Producto;
+import com.labdevs.comandar.data.entity.enums.EstadoMesa;
+import com.labdevs.comandar.data.entity.enums.EstadoPedido;
 import com.labdevs.comandar.data.model.ItemPedido;
+import com.labdevs.comandar.data.model.MesaConCamarero;
 
 import java.util.List;
 
@@ -34,6 +38,8 @@ public class AppRepository {
     // LiveData que pueden ser observados globalmente
     private final LiveData<List<Mesa>> allMesas;
 
+    private final LiveData<List<MesaConCamarero>> allMesasConCamarero;
+
     public AppRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         camareroDao = db.camareroDao();
@@ -44,6 +50,7 @@ public class AppRepository {
         detallePedidoDao = db.detallePedidoDao();
 
         allMesas = mesaDao.getAllMesas();
+        allMesasConCamarero = mesaDao.getMesasConCamarero();
     }
 
     // --- GESTIÓN DE PERFIL ---
@@ -83,6 +90,16 @@ public class AppRepository {
 
     public void desasignarMesa(Mesa mesa) {
         mesa.camareroId = null;
+        AppDatabase.databaseWriteExecutor.execute(() -> mesaDao.update(mesa));
+    }
+
+    public LiveData<List<MesaConCamarero>> getMapaDeMesasConCamarero() {
+        return allMesasConCamarero;
+    }
+
+
+    // Nuevo método para actualizar una mesa genéricamente
+    public void actualizarMesa(Mesa mesa) {
         AppDatabase.databaseWriteExecutor.execute(() -> mesaDao.update(mesa));
     }
 

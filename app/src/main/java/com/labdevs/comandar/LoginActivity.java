@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
             if (camarero != null) {
                 Toast.makeText(this, "Bienvenido " + camarero.nombre, Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(LoginActivity.this, TablesActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("CAMARERO_ID", camarero.camareroId);
                 // Estas flags limpian el historial de navegación para que el usuario no pueda
                 // volver a la pantalla de login con el botón de "atrás".
