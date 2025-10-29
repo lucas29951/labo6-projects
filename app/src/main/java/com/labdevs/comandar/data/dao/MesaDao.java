@@ -42,4 +42,10 @@ public interface MesaDao {
             "LEFT JOIN camareros ON mesas.camarero_id = camareros.camarero_id " +
             "ORDER BY mesas.numero_mesa ASC")
     LiveData<List<MesaConCamarero>> getMesasConCamarero();
+
+    @Query("SELECT COUNT(*) FROM mesas WHERE camarero_id = :camareroId")
+    LiveData<Integer> countMesasAsignadas(int camareroId);
+
+    @Query("UPDATE mesas SET camarero_id = NULL WHERE camarero_id = :camareroId")
+    void desasignarTodasLasMesasDeCamarero(int camareroId); // Síncrono, para ejecutar en background
 }

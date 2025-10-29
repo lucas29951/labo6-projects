@@ -78,6 +78,22 @@ public class AppRepository {
         return camareroDao.getCamareroById(id);
     }
 
+    public LiveData<Integer> getConteoMesasAsignadas(int camareroId) {
+        return mesaDao.countMesasAsignadas(camareroId);
+    }
+
+    public void desasignarTodasLasMesas(int camareroId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mesaDao.desasignarTodasLasMesasDeCamarero(camareroId);
+        });
+    }
+
+    // ----- NUEVO MÉTODO SÍNCRONO -----
+    public Camarero getCamareroByIdSync(int id) {
+        // No necesita Executor porque ya será llamado desde uno en el ViewModel
+        return camareroDao.getCamareroByIdSync(id);
+    }
+
     // --- GESTIÓN DE MESAS ---
     public LiveData<List<Mesa>> getMapaDeMesas() {
         return allMesas;

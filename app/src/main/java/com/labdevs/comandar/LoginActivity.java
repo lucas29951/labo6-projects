@@ -2,6 +2,7 @@ package com.labdevs.comandar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,6 +13,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private LoginViewModel viewModel;
+    public static final String CAMARERO_ID_KEY = "CAMARERO_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,13 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bienvenido " + camarero.nombre, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("CAMARERO_ID", camarero.camareroId);
+                intent.putExtra(CAMARERO_ID_KEY, camarero.camareroId);
+                Log.d("LoginActivity", "Enviando CAMARERO_ID: " + camarero.camareroId); // DEBUG
                 // Estas flags limpian el historial de navegación para que el usuario no pueda
                 // volver a la pantalla de login con el botón de "atrás".
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 

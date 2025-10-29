@@ -10,25 +10,73 @@
         android:id="@+id/tablesFragment"
         android:name="com.labdevs.comandar.TablesFragment"
         android:label="Mesas"
-        tools:layout="@layout/fragment_tables" />
+        tools:layout="@layout/fragment_tables">
+        <argument
+            android:name="CAMARERO_ID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.labdevs.comandar.MenuFragment"
         android:label="Menú"
-        tools:layout="@layout/placeholder_layout" />
+        tools:layout="@layout/placeholder_layout">
+        <argument
+            android:name="CAMARERO_ID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.labdevs.comandar.CuentaFragment"
         android:label="Cuenta"
-        tools:layout="@layout/placeholder_layout" />
+        tools:layout="@layout/placeholder_layout">
+        <argument
+            android:name="CAMARERO_ID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.labdevs.comandar.ProfileFragment"
         android:label="Perfil"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="CAMARERO_ID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.labdevs.comandar.EditProfileFragment"
+        android:label="Editar Perfil"
+        tools:layout="@layout/fragment_edit_profile">
+        <argument
+            android:name="CAMARERO_ID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.labdevs.comandar.ChangePasswordFragment"
+        android:label="Cambiar Contraseña"
+        tools:layout="@layout/fragment_change_password">
+        <argument
+            android:name="CAMARERO_ID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
 </navigation>
 

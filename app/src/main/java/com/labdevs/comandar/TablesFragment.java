@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +41,11 @@ public class TablesFragment extends Fragment {
         final String CAMARERO_ID_KEY = "CAMARERO_ID";
 
         // Usamos requireActivity() para acceder al Intent que inició la actividad contenedora
-        int camareroId = requireActivity().getIntent().getIntExtra(CAMARERO_ID_KEY, -1);
+        int camareroId = -1;
+        if (getArguments() != null) {
+            camareroId = ((MainActivity) getActivity()).getCamareroId();
+            Log.d("TablesFragment", "ID de camarero obtenido de MainActivity: " + camareroId);
+        }
 
         // Es crucial verificar que el ID es válido antes de continuar
         if (camareroId == -1) {

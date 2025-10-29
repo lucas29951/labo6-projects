@@ -1,14 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title_profile"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Usamos CardView para crear el efecto redondeado fácilmente -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="60dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_title">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/profile_carlos" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_view_profile_image"
+            tools:text="Carlos Martínez" />
+
+        <TextView
+            android:id="@+id/text_job_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/example_job"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_full_name" />
+
+        <TextView
+            android:id="@+id/text_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_job_title"
+            tools:text="carlos@restaurante.com" />
+
+        <!-- SECCIÓN INFORMACIÓN -->
+        <TextView
+            android:id="@+id/info_section_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/infosec_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_email" />
+
+        <TextView
+            android:id="@+id/tables_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/tables_subtitle"
+            app:layout_constraintStart_toStartOf="@id/info_section_title"
+            app:layout_constraintTop_toBottomOf="@id/info_section_title" />
+
+        <TextView
+            android:id="@+id/text_tables_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/tables_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/contact_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/contact_subtitle"
+            app:layout_constraintStart_toStartOf="@id/info_section_title"
+            app:layout_constraintTop_toBottomOf="@id/tables_subtitle" />
+
+        <TextView
+            android:id="@+id/text_contact_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/contact_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="+34 666 777 888" />
+
+        <!-- SECCIÓN CUENTA -->
+        <TextView
+            android:id="@+id/account_section_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/accountsec_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contact_subtitle" />
+
+        <TextView
+            android:id="@+id/button_edit_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/edit_profile_subtitle"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="12dp"
+            app:drawableEndCompat="@drawable/arrow_forward_ios_24px"
+            app:layout_constraintStart_toStartOf="@id/account_section_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_section_title" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintStart_toStartOf="@id/button_edit_profile"
+            app:layout_constraintEnd_toEndOf="@id/button_edit_profile"
+            app:layout_constraintTop_toBottomOf="@id/button_edit_profile"/>
+
+
+        <!-- Implementar "Cambiar Contraseña" como un botón -->
+        <TextView
+            android:id="@+id/button_change_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="12dp"
+            android:text="Cambiar contraseña"
+            app:drawableEndCompat="@drawable/arrow_forward_ios_24px"
+            app:layout_constraintEnd_toEndOf="@id/button_edit_profile"
+            app:layout_constraintStart_toStartOf="@id/button_edit_profile"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <!-- BOTÓN CERRAR SESIÓN -->
+        <Button
+            android:id="@+id/button_logout"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@android:color/black"
+            android:text="@string/logout_button"
+            app:layout_constraintEnd_toEndOf="@id/button_edit_profile"
+            app:layout_constraintStart_toStartOf="@id/button_edit_profile"
+            app:layout_constraintTop_toBottomOf="@id/button_change_password" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
