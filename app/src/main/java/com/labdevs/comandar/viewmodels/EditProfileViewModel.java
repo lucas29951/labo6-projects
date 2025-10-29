@@ -1,6 +1,7 @@
 package com.labdevs.comandar.viewmodels;
 
 import android.app.Application;
+import android.util.Patterns;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -26,12 +27,19 @@ public class EditProfileViewModel extends AndroidViewModel {
     }
 
     public void loadCamarero(int camareroId) {
-        camarero = repository.getPerfil(camareroId);
+        if (camarero == null) { // Cargar solo si no está ya cargado
+            camarero = repository.getPerfil(camareroId);
+        }
     }
 
-    public void guardarCambios(String nombre, String apellido, String telefono) {
-        if (nombre.trim().isEmpty() || apellido.trim().isEmpty()) {
-            _error.setValue("El nombre y el apellido no pueden estar vacíos.");
+    public void guardarCambios(String nombre, String apellido, String email, String telefono, String fotoUrl) {
+        if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || email.trim().isEmpty()) {
+            _error.setValue("Nombre, apellido y email no pueden estar vacíos.");
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
+            _error.setValue("El formato del correo electrónico no es válido.");
             return;
         }
 
@@ -43,7 +51,9 @@ public class EditProfileViewModel extends AndroidViewModel {
 
         camareroActual.nombre = nombre.trim();
         camareroActual.apellido = apellido.trim();
+        camareroActual.email = email.trim(); // Nuevo
         camareroActual.numeroContacto = telefono.trim();
+        camareroActual.fotoUrl = fotoUrl; // Nuevo
 
         repository.actualizarPerfilCamarero(camareroActual);
         _updateSuccess.setValue(true);
