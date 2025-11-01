@@ -28,6 +28,9 @@ public class Producto {
     @ColumnInfo(name = "categoria_id", index = true)
     public int categoriaId;
 
+    @ColumnInfo(name = "foto_url")
+    public String fotoUrl;
+
     public Producto() {
         this.disponible = true;
     }

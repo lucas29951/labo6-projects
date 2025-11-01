@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Camarero.class, Mesa.class, Pedido.class, CategoriaProducto.class, Producto.class, DetallePedido.class},
-        version = 1,
+        version = 2,
         exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -163,18 +163,35 @@ public abstract class AppDatabase extends RoomDatabase {
 
                     categoriaDao.insertAll(Arrays.asList(catEntradas, catPrincipales, catBebidas, catPostres));
 
-                    // Productos (IDs de categoría se autogenerarán, por eso los asignamos manualmente)
+                    // ESTIÓN DE IMÁGENES DE PRODUCTOS
+                    File productImagesDir = new File(context.getFilesDir(), "product_images");
+                    if (!productImagesDir.exists()) {
+                        productImagesDir.mkdirs();
+                    }
+
+                    File imgNachos = copyDrawableToFile(context, R.drawable.producto_nachos, new File(productImagesDir, "producto_nachos.jpg"));
+                    File imgQuesadillas = copyDrawableToFile(context, R.drawable.producto_quesadillas, new File(productImagesDir, "producto_quesadillas.jpg"));
+                    File imgTacos = copyDrawableToFile(context, R.drawable.producto_tacos, new File(productImagesDir, "producto_tacos.jpg"));
+                    File imgEnchiladas = copyDrawableToFile(context, R.drawable.producto_enchiladas, new File(productImagesDir, "producto_enchiladas.jpg"));
+                    File imgHorchata = copyDrawableToFile(context, R.drawable.producto_horchata, new File(productImagesDir, "producto_horchata.jpg"));
+                    File imgMargarita = copyDrawableToFile(context, R.drawable.producto_margarita, new File(productImagesDir, "producto_margarita.jpg"));
+                    File imgCorona = copyDrawableToFile(context, R.drawable.producto_corona, new File(productImagesDir, "producto_corona.png"));
+                    File imgTresLeches = copyDrawableToFile(context, R.drawable.producto_tres_leches, new File(productImagesDir, "producto_tres_leches.jpg"));
+                    File imgChurros = copyDrawableToFile(context, R.drawable.producto_churros, new File(productImagesDir, "producto_churros.jpg"));
+                    File imgFajitas = copyDrawableToFile(context, R.drawable.producto_fajitas, new File(productImagesDir, "producto_fajitas.jpg"));
+
+                    // Productos (con la nueva URL de la imagen)
                     List<Producto> productos = new ArrayList<>();
-                    productos.add(createProducto("Nachos con Guacamole", "Totopos de maíz con guacamole casero", 8.50, true, 1));
-                    productos.add(createProducto("Quesadillas de Champiñones", "Tortillas de trigo rellenas de queso y champiñones salteados", 7.00, true, 1));
-                    productos.add(createProducto("Tacos al Pastor", "Finas láminas de cerdo marinado con piña, cilantro y cebolla", 12.00, true, 2));
-                    productos.add(createProducto("Enchiladas Suizas", "Tortillas de maíz rellenas de pollo, bañadas en salsa verde cremosa y gratinadas con queso", 14.50, true, 2));
-                    productos.add(createProducto("Fajitas de Ternera", "Tiras de ternera salteadas con pimientos y cebolla. Se sirven con tortillas calientes", 16.00, false, 2)); // Producto no disponible
-                    productos.add(createProducto("Agua de Horchata", "Bebida refrescante a base de arroz, canela y leche", 3.00, true, 3));
-                    productos.add(createProducto("Margarita Clásica", "Cóctel de tequila, triple seco y zumo de lima", 7.50, true, 3));
-                    productos.add(createProducto("Cerveza Corona", "Botella de 33cl", 3.50, true, 3));
-                    productos.add(createProducto("Pastel de Tres Leches", "Bizcocho bañado en tres tipos de leche con cobertura de merengue", 5.50, true, 4));
-                    productos.add(createProducto("Churros con Chocolate", "Porción de churros caseros con salsa de chocolate caliente", 4.50, true, 4));
+                    productos.add(createProducto("Nachos con Guacamole", "Totopos de maíz con guacamole casero", 8.50, true, 1, imgNachos != null ? imgNachos.getAbsolutePath() : null));
+                    productos.add(createProducto("Quesadillas de Champiñones", "Tortillas de trigo rellenas de queso y champiñones salteados", 7.00, true, 1, imgQuesadillas != null ? imgQuesadillas.getAbsolutePath() : null));
+                    productos.add(createProducto("Tacos al Pastor", "Finas láminas de cerdo marinado con piña, cilantro y cebolla", 12.00, true, 2, imgTacos != null ? imgTacos.getAbsolutePath() : null));
+                    productos.add(createProducto("Enchiladas Suizas", "Tortillas de maíz rellenas de pollo, bañadas en salsa verde cremosa y gratinadas con queso", 14.50, true, 2, imgEnchiladas != null ? imgEnchiladas.getAbsolutePath() : null));
+                    productos.add(createProducto("Fajitas de Ternera", "Tiras de ternera salteadas con pimientos y cebolla. Se sirven con tortillas calientes", 16.00, false, 2, imgFajitas != null ? imgFajitas.getAbsolutePath() : null));
+                    productos.add(createProducto("Agua de Horchata", "Bebida refrescante a base de arroz, canela y leche", 3.00, true, 3, imgHorchata != null ? imgHorchata.getAbsolutePath() : null));
+                    productos.add(createProducto("Margarita Clásica", "Cóctel de tequila, triple seco y zumo de lima", 7.50, true, 3, imgMargarita != null ? imgMargarita.getAbsolutePath() : null));
+                    productos.add(createProducto("Cerveza Corona", "Botella de 33cl", 3.50, true, 3, imgCorona != null ? imgCorona.getAbsolutePath() : null));
+                    productos.add(createProducto("Pastel de Tres Leches", "Bizcocho bañado en tres tipos de leche con cobertura de merengue", 5.50, true, 4, imgTresLeches != null ? imgTresLeches.getAbsolutePath() : null));
+                    productos.add(createProducto("Churros con Chocolate", "Porción de churros caseros con salsa de chocolate caliente", 4.50, true, 4, imgChurros != null ? imgChurros.getAbsolutePath() : null));
 
                     productoDao.insertAll(productos);
 
@@ -238,13 +255,14 @@ public abstract class AppDatabase extends RoomDatabase {
     /**
      * Función de utilidad para crear un Producto de forma rápida.
      */
-    private static Producto createProducto(String nombre, String desc, double precio, boolean disponible, int catId) {
+    private static Producto createProducto(String nombre, String desc, double precio, boolean disponible, int catId, String fotoUrl) {
         Producto p = new Producto();
         p.nombre = nombre;
         p.descripcion = desc;
         p.precio = precio;
         p.disponible = disponible;
         p.categoriaId = catId;
+        p.fotoUrl = fotoUrl;
         return p;
     }
 
