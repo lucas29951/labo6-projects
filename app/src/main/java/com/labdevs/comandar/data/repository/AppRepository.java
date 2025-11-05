@@ -120,6 +120,50 @@ public class AppRepository {
     }
 
     // --- GESTIÓN DE PEDIDOS Y MENÚ ---
+    public List<Mesa> getMesasAsignadasSync(int camareroId) {
+        return mesaDao.getMesasByCamareroSync(camareroId);
+    }
+
+    public void agregarProductoAPedido(int productoId, int mesaId, int camareroId, int cantidad, String notas) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // 1. Buscar si ya existe un pedido activo para esa mesa
+            Pedido pedidoActivo = pedidoDao.getPedidoActivoPorMesaSync(mesaId);
+            long pedidoId;
+
+            if (pedidoActivo == null) {
+                // 2a. Si no existe, crear uno nuevo
+                Pedido nuevoPedido = new Pedido();
+                nuevoPedido.mesaId = mesaId;
+                nuevoPedido.camareroId = camareroId;
+                pedidoId = pedidoDao.insert(nuevoPedido); // 'insert' devuelve el nuevo ID
+            } else {
+                // 2b. Si ya existe, usamos su ID
+                pedidoId = pedidoActivo.pedidoId;
+            }
+
+            // 3. Obtener el producto para saber su precio
+            Producto producto = productoDao.getProductoByIdSync(productoId);
+            if (producto == null) return; // Salir si el producto no existe
+
+            // 4. Crear el detalle del pedido
+            DetallePedido detalle = new DetallePedido();
+            detalle.pedidoId = (int) pedidoId;
+            detalle.productoId = productoId;
+            detalle.cantidad = cantidad;
+            detalle.precioUnitario = producto.precio;
+            detalle.caracteristicasParticulares = notas;
+
+            detallePedidoDao.insertOrUpdate(detalle); // Usar insertOrUpdate para manejar si el producto ya estaba
+
+            // 5. Lógica de negocio: Cambiar estado de la mesa a 'ocupada'
+            Mesa mesa = mesaDao.getMesaByIdSync(mesaId);
+            if (mesa != null && (mesa.estado == EstadoMesa.libre || mesa.estado == EstadoMesa.reservada)) {
+                mesa.estado = EstadoMesa.ocupada;
+                mesaDao.update(mesa);
+            }
+        });
+    }
+
     public LiveData<List<CategoriaProducto>> getCategoriasMenu() {
         return categoriaProductoDao.getAllCategorias();
     }

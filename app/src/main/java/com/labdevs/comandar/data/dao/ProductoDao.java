@@ -35,4 +35,7 @@ public interface ProductoDao {
     //Buscar productos por nombre y filtrando por categorías
     @Query("SELECT * FROM productos WHERE nombre LIKE '%' || :query || '%' AND categoria_id IN (:categoriaIds) ORDER BY disponible DESC, nombre ASC")
     LiveData<List<Producto>> searchProductosByNameAndCategory(String query, List<Integer> categoriaIds);
+
+    @Query("SELECT * FROM productos WHERE producto_id = :productoId LIMIT 1")
+    Producto getProductoByIdSync(int productoId);
 }

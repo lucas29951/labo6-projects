@@ -47,4 +47,11 @@ public class Mesa {
         newMesa.camareroId = this.camareroId;
         return newMesa;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        // Este es el texto que se mostrará en el Spinner
+        return "Mesa " + String.format("%02d", numeroMesa);
+    }
 }

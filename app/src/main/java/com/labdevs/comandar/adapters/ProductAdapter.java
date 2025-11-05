@@ -76,7 +76,7 @@ public class ProductAdapter extends ListAdapter<Producto, ProductAdapter.Product
 
                 // Asignar listeners
                 itemView.setOnClickListener(v -> listener.onProductItemClick(product.productoId));
-                binding.buttonAddProduct.setOnClickListener(v -> listener.onAddButtonClick(product.nombre));
+                binding.buttonAddProduct.setOnClickListener(v -> listener.onAddButtonClick(product.productoId));
             } else {
                 binding.chipStatus.setText("Agotado");
                 binding.chipStatus.setChipBackgroundColorResource(R.color.status_agotado);
@@ -97,7 +97,7 @@ public class ProductAdapter extends ListAdapter<Producto, ProductAdapter.Product
 
     public interface OnProductClickListener {
         void onProductItemClick(int productId); // Para el ítem completo
-        void onAddButtonClick(String productName); // Para el botón "Añadir"
+        void onAddButtonClick(int productId); // Para el botón "Añadir"
     }
 
     private static final DiffUtil.ItemCallback<Producto> DIFF_CALLBACK = new DiffUtil.ItemCallback<Producto>() {

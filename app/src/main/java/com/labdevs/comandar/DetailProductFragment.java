@@ -60,7 +60,9 @@ public class DetailProductFragment extends Fragment {
         observeViewModel();
 
         binding.buttonAddToOrder.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Funcionalidad 'Añadir a pedido' pendiente.", Toast.LENGTH_SHORT).show();
+            int camareroId = ((MainActivity) requireActivity()).getCamareroId();
+            AddProductDialogFragment dialogFragment = AddProductDialogFragment.newInstance(productId, camareroId);
+            dialogFragment.show(getParentFragmentManager(), "AddProductDialog");
         });
     }
 

@@ -48,4 +48,10 @@ public interface MesaDao {
 
     @Query("UPDATE mesas SET camarero_id = NULL WHERE camarero_id = :camareroId")
     void desasignarTodasLasMesasDeCamarero(int camareroId); // Síncrono, para ejecutar en background
+
+    @Query("SELECT * FROM mesas WHERE camarero_id = :camareroId ORDER BY numero_mesa ASC")
+    List<Mesa> getMesasByCamareroSync(int camareroId);
+
+    @Query("SELECT * FROM mesas WHERE mesa_id = :mesaId LIMIT 1")
+    Mesa getMesaByIdSync(int mesaId);
 }

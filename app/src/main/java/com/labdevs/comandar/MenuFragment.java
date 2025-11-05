@@ -53,6 +53,9 @@ public class MenuFragment extends Fragment {
     }
 
     private void setupProductRecyclerView() {
+
+        int camareroId = ((MainActivity) requireActivity()).getCamareroId();
+
         productAdapter = new ProductAdapter(getContext(), new ProductAdapter.OnProductClickListener() {
             @Override
             public void onProductItemClick(int productId) {
@@ -64,9 +67,10 @@ public class MenuFragment extends Fragment {
             }
 
             @Override
-            public void onAddButtonClick(String productName) {
-                // Acción para el botón: mostrar Toast
-                Toast.makeText(getContext(), productName + " añadido al pedido.", Toast.LENGTH_SHORT).show();
+            public void onAddButtonClick(int productId) { // Cambiado a pasar productId
+                // Acción para el botón: mostrar Diálogo
+                AddProductDialogFragment dialogFragment = AddProductDialogFragment.newInstance(productId, camareroId);
+                dialogFragment.show(getParentFragmentManager(), "AddProductDialog");
             }
         });
         binding.recyclerViewProducts.setAdapter(productAdapter);
