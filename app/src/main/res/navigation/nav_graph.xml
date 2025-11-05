@@ -22,10 +22,23 @@
         android:name="com.labdevs.comandar.MenuFragment"
         android:label="Menú"
         tools:layout="@layout/placeholder_layout">
+        <action
+            android:id="@+id/action_menuFragment_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
         <argument
             android:name="CAMARERO_ID"
             app:argType="integer"
             android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailProductFragment"
+        android:name="com.labdevs.comandar.DetailProductFragment"
+        android:label="Detalle del Producto"
+        tools:layout="@layout/fragment_detail_product">
+        <argument
+            android:name="PRODUCT_ID"
+            app:argType="integer" />
     </fragment>
 
     <fragment

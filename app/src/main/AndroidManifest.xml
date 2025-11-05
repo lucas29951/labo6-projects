@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Comandar">
         <activity
-            android:name=".DetailProductActivity"
-            android:exported="false" />
-        <activity
             android:name=".ResumeActivity"
             android:exported="false" />
         <activity

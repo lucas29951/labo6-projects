@@ -124,8 +124,28 @@ public class AppRepository {
         return categoriaProductoDao.getAllCategorias();
     }
 
-    public LiveData<List<Producto>> getProductosPorCategoria(int categoriaId) {
-        return productoDao.getProductosByCategoria(categoriaId);
+    public LiveData<List<Producto>> getAllProductos() {
+        return productoDao.getAllProductos();
+    }
+
+    public LiveData<List<Producto>> getProductosByCategorias(List<Integer> categoriaIds) {
+        return productoDao.getProductosByCategorias(categoriaIds);
+    }
+
+    public LiveData<Producto> getProductoById(int productoId) {
+        return productoDao.getProductoById(productoId);
+    }
+
+    public LiveData<List<Producto>> searchProductos(String query, List<Integer> categoryIds) {
+        if (query.isEmpty() && categoryIds.isEmpty()) {
+            return getAllProductos();
+        } else if (query.isEmpty()) {
+            return getProductosByCategorias(categoryIds);
+        } else if (categoryIds.isEmpty()) {
+            return productoDao.searchProductosByName(query);
+        } else {
+            return productoDao.searchProductosByNameAndCategory(query, categoryIds);
+        }
     }
 
     public LiveData<Pedido> getPedidoActivoDeMesa(int mesaId) {

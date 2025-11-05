@@ -9,4 +9,14 @@
     <color name="mesa_reservada">#DCA8EE</color>
     <color name="mesa_default">#D7D7D7</color>
 
+
+    <!-- Colores de Estado de Producto -->
+    <color name="status_disponible">#4CB362</color> <!-- Verde -->
+    <color name="status_agotado">#E57373</color> <!-- Rojo claro -->
+    <color name="status_default">#D7D7D7</color> <!-- Gris -->
+
+    <!-- Colores para Chips de Filtro -->
+    <color name="chip_seleccionado">#DFBE8F</color> <!-- Naranja claro -->
+    <color name="chip_borde">#FF000000</color> <!-- Negro -->
+
 </resources>
