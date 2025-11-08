@@ -1,7 +1,6 @@
 package com.labdevs.comandar.data.repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -22,7 +21,10 @@ import com.labdevs.comandar.data.entity.enums.EstadoMesa;
 import com.labdevs.comandar.data.entity.enums.EstadoPedido;
 import com.labdevs.comandar.data.model.ItemPedido;
 import com.labdevs.comandar.data.model.MesaConCamarero;
+import com.labdevs.comandar.data.model.PedidoConResumen;
+import com.labdevs.comandar.utils.DataInvalidationNotifier;
 
+import java.util.Date;
 import java.util.List;
 
 // data/repository/AppRepository.java
@@ -126,6 +128,8 @@ public class AppRepository {
 
     public void agregarProductoAPedido(int productoId, int mesaId, int camareroId, int cantidad, String notas) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
+            boolean isNewPedidoCreated = false; // Flag para saber si creamos un pedido nuevo
+
             // 1. Buscar si ya existe un pedido activo para esa mesa
             Pedido pedidoActivo = pedidoDao.getPedidoActivoPorMesaSync(mesaId);
             long pedidoId;
@@ -136,6 +140,7 @@ public class AppRepository {
                 nuevoPedido.mesaId = mesaId;
                 nuevoPedido.camareroId = camareroId;
                 pedidoId = pedidoDao.insert(nuevoPedido); // 'insert' devuelve el nuevo ID
+                isNewPedidoCreated = true; // Marcamos que se creó uno nuevo
             } else {
                 // 2b. Si ya existe, usamos su ID
                 pedidoId = pedidoActivo.pedidoId;
@@ -160,6 +165,9 @@ public class AppRepository {
             if (mesa != null && (mesa.estado == EstadoMesa.libre || mesa.estado == EstadoMesa.reservada)) {
                 mesa.estado = EstadoMesa.ocupada;
                 mesaDao.update(mesa);
+            }
+            if (isNewPedidoCreated) {
+                DataInvalidationNotifier.getInstance().notifyPedidosChanged();
             }
         });
     }
@@ -214,6 +222,10 @@ public class AppRepository {
 
     public void actualizarEstadoPedido(Pedido pedido) {
         AppDatabase.databaseWriteExecutor.execute(() -> pedidoDao.update(pedido));
+    }
+
+    public LiveData<List<PedidoConResumen>> getPedidos(int camareroId, EstadoPedido estado, Date fechaInicio, Date fechaFin) {
+        return pedidoDao.getPedidosFiltrados(camareroId, estado, fechaInicio, fechaFin);
     }
 
     // --- Métodos para popular datos iniciales---

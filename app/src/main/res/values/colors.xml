@@ -19,4 +19,10 @@
     <color name="chip_seleccionado">#DFBE8F</color> <!-- Naranja claro -->
     <color name="chip_borde">#FF000000</color> <!-- Negro -->
 
+    <color name="pedido_abierto">#4CB362</color> <!-- Verde (igual que mesa_libre) -->
+    <color name="pedido_enviado">#3949AB</color> <!-- Azul (Indigo 700) -->
+    <color name="pedido_cerrado">#BDBDBD</color> <!-- Gris (Grey 400) -->
+
+    <color name="pedido_eliminar">#D32F2F</color>
+
 </resources>

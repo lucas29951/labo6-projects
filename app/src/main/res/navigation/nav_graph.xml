@@ -21,7 +21,7 @@
         android:id="@+id/menuFragment"
         android:name="com.labdevs.comandar.MenuFragment"
         android:label="Menú"
-        tools:layout="@layout/placeholder_layout">
+        tools:layout="@layout/fragment_menu">
         <action
             android:id="@+id/action_menuFragment_to_detailProductFragment"
             app:destination="@id/detailProductFragment" />
@@ -45,7 +45,7 @@
         android:id="@+id/accountFragment"
         android:name="com.labdevs.comandar.CuentaFragment"
         android:label="Cuenta"
-        tools:layout="@layout/placeholder_layout">
+        tools:layout="@layout/fragment_cuenta">
         <argument
             android:name="CAMARERO_ID"
             app:argType="integer"
