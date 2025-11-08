@@ -48,9 +48,11 @@ public class CuentaViewModel extends AndroidViewModel {
 
         // 2. Notificaciones globales desde el Repositorio que indican que los datos de pedidos han cambiado.
         pedidos.addSource(AppRepository.getPedidosChangedNotifier(), invalidated -> {
-            // Si el notificador emite un evento 'true', recargamos los datos.
             if (invalidated != null && invalidated) {
-                reloadData();
+                Filtros curr = filtros.getValue();
+                if (curr != null) {
+                    filtros.setValue(new Filtros(curr.estado, curr.fechaInicio, new Date()));
+                }
             }
         });
     }
@@ -85,9 +87,13 @@ public class CuentaViewModel extends AndroidViewModel {
         this.camareroId = id;
 
         // Establecemos los filtros iniciales. Esto disparará la primera llamada a reloadData().
-        Calendar cal = Calendar.getInstance();
-        cal.set(1970, 0, 1); // Fecha por defecto muy antigua para incluir todos los pedidos.
-        filtros.setValue(new Filtros(EstadoPedido.abierto, cal.getTime(), new Date()));
+        Calendar start = Calendar.getInstance();
+        start.set(1970, 0, 1, 0, 0, 0);
+
+        Calendar end = Calendar.getInstance();
+        end.set(2099, 11, 31, 23, 59, 59);
+
+        filtros.setValue(new Filtros(EstadoPedido.abierto, start.getTime(), end.getTime()));
     }
 
     // Métodos llamados por la UI para cambiar los filtros.
