@@ -3,6 +3,7 @@ package com.labdevs.comandar.data.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.labdevs.comandar.data.dao.CamareroDao;
 import com.labdevs.comandar.data.dao.CategoriaProductoDao;
@@ -22,7 +23,6 @@ import com.labdevs.comandar.data.entity.enums.EstadoPedido;
 import com.labdevs.comandar.data.model.ItemPedido;
 import com.labdevs.comandar.data.model.MesaConCamarero;
 import com.labdevs.comandar.data.model.PedidoConResumen;
-import com.labdevs.comandar.utils.DataInvalidationNotifier;
 
 import java.util.Date;
 import java.util.List;
@@ -41,6 +41,12 @@ public class AppRepository {
     private final LiveData<List<Mesa>> allMesas;
 
     private final LiveData<List<MesaConCamarero>> allMesasConCamarero;
+
+    private static final MutableLiveData<Boolean> pedidosChangedNotifier = new MutableLiveData<>();
+
+    public static LiveData<Boolean> getPedidosChangedNotifier() {
+        return pedidosChangedNotifier;
+    }
 
     public AppRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -166,9 +172,7 @@ public class AppRepository {
                 mesa.estado = EstadoMesa.ocupada;
                 mesaDao.update(mesa);
             }
-            if (isNewPedidoCreated) {
-                DataInvalidationNotifier.getInstance().notifyPedidosChanged();
-            }
+            pedidosChangedNotifier.postValue(true);
         });
     }
 

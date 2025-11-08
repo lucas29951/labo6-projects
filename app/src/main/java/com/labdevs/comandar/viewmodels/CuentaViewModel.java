@@ -8,32 +8,30 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.labdevs.comandar.data.entity.enums.EstadoPedido;
 import com.labdevs.comandar.data.model.PedidoConResumen;
 import com.labdevs.comandar.data.repository.AppRepository;
-import com.labdevs.comandar.utils.DataInvalidationNotifier;
-
 import java.util.Date;
 import java.util.List;
 
 public class CuentaViewModel extends AndroidViewModel {
     private final AppRepository repository;
-    private int camareroId = -1; // Almacenamos el ID del camarero
+    private int camareroId = -1;
 
     // LiveData para gestionar los filtros (estado y fecha)
     private final MutableLiveData<Filtros> filtros = new MutableLiveData<>();
 
-    // LiveData final que la UI observará.
+    // LiveData final que la UI observará. Es un Mediator para reaccionar a múltiples fuentes.
     public final MediatorLiveData<List<PedidoConResumen>> pedidos = new MediatorLiveData<>();
     private LiveData<List<PedidoConResumen>> currentSource = null;
 
+    // Clase interna para agrupar los parámetros del filtro.
     private static class Filtros {
         EstadoPedido estado;
         Date fechaInicio;
         Date fechaFin;
 
-        public Filtros(EstadoPedido estado, Date fechaInicio, Date fechaFin) {
+        Filtros(EstadoPedido estado, Date fechaInicio, Date fechaFin) {
             this.estado = estado;
             this.fechaInicio = fechaInicio;
             this.fechaFin = fechaFin;
@@ -45,42 +43,56 @@ public class CuentaViewModel extends AndroidViewModel {
         repository = new AppRepository(application);
 
         // El Mediator escucha a DOS fuentes:
-        // 1. Cambios en los filtros del usuario.
+        // 1. Cambios en el objeto 'filtros' (cuando el usuario cambia de pestaña o aplica un filtro de fecha).
         pedidos.addSource(filtros, f -> reloadData());
 
-        // 2. Notificaciones globales de que los datos de pedidos han cambiado.
-        pedidos.addSource(DataInvalidationNotifier.getInstance().getPedidosInvalidated(), invalidated -> {
+        // 2. Notificaciones globales desde el Repositorio que indican que los datos de pedidos han cambiado.
+        pedidos.addSource(AppRepository.getPedidosChangedNotifier(), invalidated -> {
+            // Si el notificador emite un evento 'true', recargamos los datos.
             if (invalidated != null && invalidated) {
                 reloadData();
             }
         });
     }
 
+    /**
+     * Método central que se encarga de obtener los datos actualizados del repositorio.
+     * Es llamado por cualquiera de las fuentes del MediatorLiveData.
+     */
     private void reloadData() {
         Filtros f = filtros.getValue();
+        // No hacemos nada si no tenemos los filtros o el ID del camarero.
         if (f == null || camareroId == -1) return;
 
+        // Quitamos la fuente de datos anterior para evitar que el Mediator escuche a LiveDatas viejos.
         if (currentSource != null) {
             pedidos.removeSource(currentSource);
         }
 
+        // Obtenemos un NUEVO LiveData del repositorio con los filtros actuales.
         currentSource = repository.getPedidos(camareroId, f.estado, f.fechaInicio, f.fechaFin);
 
+        // Le decimos al Mediator que empiece a escuchar a esta nueva fuente y propague sus valores.
         pedidos.addSource(currentSource, pedidos::setValue);
     }
 
-    // Método para inicializar el ViewModel con el ID del camarero
+    /**
+     * Inicializa el ViewModel con el ID del camarero.
+     * Este método es crucial y debe ser llamado desde el Fragment una vez.
+     */
     public void setCamareroId(int id) {
-        if (this.camareroId == id) return; // Evitar recargas innecesarias
+        if (this.camareroId == id) return; // Evitar reinicializaciones innecesarias.
         this.camareroId = id;
 
-        // Inicializa los filtros para disparar la primera carga
+        // Establecemos los filtros iniciales. Esto disparará la primera llamada a reloadData().
         Calendar cal = Calendar.getInstance();
-        cal.set(1970, 0, 1);
+        cal.set(1970, 0, 1); // Fecha por defecto muy antigua para incluir todos los pedidos.
         filtros.setValue(new Filtros(EstadoPedido.abierto, cal.getTime(), new Date()));
     }
 
-    // Los métodos para cambiar filtros ahora solo actualizan el LiveData `filtros`
+    // Métodos llamados por la UI para cambiar los filtros.
+    // Solo actualizan el LiveData `filtros`, y el Mediator se encarga del resto.
+
     public void setFiltroEstado(EstadoPedido estado) {
         Filtros current = filtros.getValue();
         if (current != null && current.estado != estado) {
