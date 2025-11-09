@@ -55,4 +55,7 @@ public interface PedidoDao {
 
     @Delete
     void delete(Pedido pedido);
+
+    @Query("SELECT * FROM pedidos WHERE pedido_id = :pedidoId LIMIT 1")
+    Pedido getPedidoByIdSync(int pedidoId);
 }

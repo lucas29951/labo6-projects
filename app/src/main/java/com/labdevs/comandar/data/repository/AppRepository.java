@@ -129,6 +129,45 @@ public class AppRepository {
 
     // --- GESTIÓN DE PEDIDOS Y MENÚ ---
 
+    public void reabrirPedido(Pedido pedido) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            pedido.estado = EstadoPedido.abierto;
+            pedidoDao.update(pedido);
+            pedidosChangedNotifier.postValue(true);
+        });
+    }
+
+    public Pedido getPedidoByIdSync(int pedidoId) {
+        return pedidoDao.getPedidoByIdSync(pedidoId);
+    }
+
+    public DetallePedido getDetalleSync(int pedidoId, int productoId) {
+        // Es seguro llamar al DAO directamente aquí porque este método será invocado
+        // desde un hilo de fondo (Executor) en el ViewModel.
+        return detallePedidoDao.getDetalleSync(pedidoId, productoId);
+    }
+
+    public void actualizarDetallePedido(DetallePedido detalle) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            detallePedidoDao.insertOrUpdate(detalle);
+            pedidosChangedNotifier.postValue(true);
+        });
+    }
+
+    public void eliminarDetallePedido(DetallePedido detalle, Runnable onEmptyOrder) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // Verificamos cuántos items tiene el pedido ANTES de borrar
+            List<ItemPedido> items = detallePedidoDao.getItemsPedidoConNombreSync(detalle.pedidoId);
+            if (items.size() <= 1) {
+                // Es el último ítem, se borrará el pedido completo
+                onEmptyOrder.run(); // Ejecutamos el callback para que el ViewModel lo gestione
+            } else {
+                detallePedidoDao.delete(detalle);
+                pedidosChangedNotifier.postValue(true);
+            }
+        });
+    }
+
     public void eliminarPedidoYLiberarMesa(Pedido pedido) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             // 1. Obtener la mesa asociada al pedido antes de eliminarlo

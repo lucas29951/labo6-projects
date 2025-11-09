@@ -131,8 +131,8 @@ public class CuentaViewModel extends AndroidViewModel {
         repository.enviarPedidoACocina(pcr.pedido);
     }
 
-    public void volverAabrirPedido(int pedidoId) {
-        // Lógica futura para cambiar el estado del pedido a 'abierto'
+    public void solicitarReabrirPedido(PedidoConResumen pcr) {
+        repository.reabrirPedido(pcr.pedido);
     }
 
     public void cerrarPedido(int pedidoId) {

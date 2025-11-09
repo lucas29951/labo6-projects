@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -172,8 +173,19 @@ public class CuentaFragment extends Fragment {
         switch(pcr.pedido.estado) {
             case abierto:
                 if (isButton1) {
-                    viewModel.editarPedido(pcr.pedido.pedidoId);
-                    message = "FUNCIONALIDAD: Editar pedido " + pcr.pedido.pedidoId;
+                    // Preparamos los argumentos para la nueva pantalla
+                    Bundle args = new Bundle();
+                    args.putInt("pedidoId", pcr.pedido.pedidoId);
+
+                    // Buscamos el número de la mesa. Necesitaremos un método síncrono para esto.
+                    // Lo añadiremos en el siguiente paso. Por ahora, asumimos que lo tenemos.
+                    // Para simplificar, lo pasaremos desde el Pedido, que ya tiene mesaId.
+                    args.putInt("mesaNumero", pcr.pedido.mesaId); // Pasamos el ID, que es el número en este caso
+
+                    // Navegamos
+                    NavHostFragment.findNavController(CuentaFragment.this)
+                            .navigate(R.id.action_accountFragment_to_editOrderFragment, args);
+                    return;
                 } else {
                     viewModel.enviarPedidoACocina(pcr);
                     message = "Pedido de la Mesa " + pcr.pedido.mesaId + " enviado a cocina.";
@@ -181,8 +193,15 @@ public class CuentaFragment extends Fragment {
                 break;
             case enviado:
                 if (isButton1) {
-                    viewModel.volverAabrirPedido(pcr.pedido.pedidoId);
-                    message = "FUNCIONALIDAD: Volver a abrir pedido " + pcr.pedido.pedidoId;
+                    viewModel.solicitarReabrirPedido(pcr);
+
+                    // Navegar a la pantalla de edición
+                    Bundle args = new Bundle();
+                    args.putInt("pedidoId", pcr.pedido.pedidoId);
+                    args.putInt("mesaNumero", pcr.pedido.mesaId);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_accountFragment_to_editOrderFragment, args);
+                    return; // Salir para no mostrar toast genérico
                 } else {
                     viewModel.cerrarPedido(pcr.pedido.pedidoId);
                     message = "FUNCIONALIDAD: Cerrar pedido " + pcr.pedido.pedidoId;

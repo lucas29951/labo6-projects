@@ -50,6 +50,26 @@
             android:name="CAMARERO_ID"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_accountFragment_to_editOrderFragment"
+            app:destination="@id/editOrderFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editOrderFragment"
+        android:name="com.labdevs.comandar.EditOrderFragment"
+        android:label="fragment_edit_order"
+        tools:layout="@layout/fragment_edit_order" >
+        <argument
+            android:name="pedidoId"
+            app:argType="integer" />
+        <argument
+            android:name="mesaNumero"
+            app:argType="integer" />
+        <!-- Acción para ir al menú a añadir más productos -->
+        <action
+            android:id="@+id/action_editOrderFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
 
     <fragment

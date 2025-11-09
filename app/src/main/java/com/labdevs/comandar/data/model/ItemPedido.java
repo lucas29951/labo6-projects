@@ -19,6 +19,10 @@ public class ItemPedido {
     @ColumnInfo(name = "caracteristicas_particulares")
     public String caracteristicasParticulares;
 
+    // NUEVO CAMPO
+    @ColumnInfo(name = "foto_url")
+    public String fotoUrl;
+
     public double getSubtotal() {
         return cantidad * precioUnitario;
     }

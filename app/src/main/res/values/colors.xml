@@ -25,4 +25,7 @@
 
     <color name="pedido_eliminar">#D32F2F</color>
 
+    <color name="circular_background">#E3F2FD</color>
+    <color name="delete_button_background">#E57373</color> <!-- Rojo claro -->
+
 </resources>

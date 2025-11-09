@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewImage"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/producto_tacos" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/textItemName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDecrease"
+        app:layout_constraintStart_toEndOf="@id/cardViewImage"
+        app:layout_constraintTop_toTopOf="@id/cardViewImage"
+        tools:text="Hamburguesa Clásica Extra Larga" />
+
+    <TextView
+        android:id="@+id/textItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintStart_toStartOf="@id/textItemName"
+        app:layout_constraintTop_toBottomOf="@id/textItemName"
+        tools:text="$12.00" />
+
+    <ImageButton
+        android:id="@+id/buttonDeleteItem"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/delete_button_background"
+        android:contentDescription="Eliminar ítem"
+        android:src="@drawable/ic_delete_red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonIncrease"
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/ic_add"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/buttonDeleteItem"
+        app:layout_constraintEnd_toStartOf="@id/buttonDeleteItem"
+        app:layout_constraintTop_toTopOf="@id/buttonDeleteItem" />
+
+    <TextView
+        android:id="@+id/textQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:minWidth="32dp"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/buttonIncrease"
+        app:layout_constraintEnd_toStartOf="@id/buttonIncrease"
+        app:layout_constraintTop_toTopOf="@id/buttonIncrease"
+        tools:text="2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonDecrease"
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/ic_remove"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/textQuantity"
+        app:layout_constraintEnd_toStartOf="@id/textQuantity"
+        app:layout_constraintTop_toTopOf="@id/textQuantity" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

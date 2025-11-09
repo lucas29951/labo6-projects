@@ -27,9 +27,21 @@ public interface DetallePedidoDao {
     // Usamos el POJO "ItemPedido".
     @Transaction
     @Query("SELECT " +
-            "d.producto_id, p.nombre, d.cantidad, d.precio_unitario, d.caracteristicas_particulares " +
+            "d.producto_id, p.nombre, p.foto_url, d.cantidad, d.precio_unitario, d.caracteristicas_particulares " +
             "FROM detalles_pedido d " +
             "JOIN productos p ON d.producto_id = p.producto_id " +
             "WHERE d.pedido_id = :pedidoId")
     LiveData<List<ItemPedido>> getItemsPedidoConNombre(int pedidoId);
+
+    @Transaction
+    @Query("SELECT " +
+            "d.producto_id, p.nombre, p.foto_url, d.cantidad, d.precio_unitario, d.caracteristicas_particulares " +
+            "FROM detalles_pedido d " +
+            "JOIN productos p ON d.producto_id = p.producto_id " +
+            "WHERE d.pedido_id = :pedidoId")
+    List<ItemPedido> getItemsPedidoConNombreSync(int pedidoId);
+
+    // Método para obtener un DetallePedido específico de forma síncrona
+    @Query("SELECT * FROM detalles_pedido WHERE pedido_id = :pedidoId AND producto_id = :productoId LIMIT 1")
+    DetallePedido getDetalleSync(int pedidoId, int productoId);
 }
