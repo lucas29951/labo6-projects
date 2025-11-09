@@ -58,6 +58,22 @@
         <action
             android:id="@+id/action_accountFragment_to_editOrderFragment"
             app:destination="@id/editOrderFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_sentOrderDetailFragment"
+            app:destination="@id/sentOrderDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sentOrderDetailFragment"
+        android:name="com.labdevs.comandar.SentOrderDetailFragment"
+        android:label="fragment_sent_order_detail"
+        tools:layout="@layout/fragment_sent_order_detail" >
+        <argument
+            android:name="pedidoId"
+            app:argType="integer" />
+        <argument
+            android:name="mesaNumero"
+            app:argType="integer" />
     </fragment>
 
     <fragment

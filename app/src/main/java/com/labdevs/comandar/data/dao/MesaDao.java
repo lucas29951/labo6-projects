@@ -54,4 +54,7 @@ public interface MesaDao {
 
     @Query("SELECT * FROM mesas WHERE mesa_id = :mesaId LIMIT 1")
     Mesa getMesaByIdSync(int mesaId);
+
+    @Query("SELECT * FROM mesas WHERE mesa_id = :mesaId LIMIT 1")
+    LiveData<Mesa> getMesaById(int mesaId); // Añadimos LiveData para observar
 }

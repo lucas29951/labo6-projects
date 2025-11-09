@@ -129,6 +129,27 @@ public class AppRepository {
 
     // --- GESTIÓN DE PEDIDOS Y MENÚ ---
 
+    public void cerrarPedidoYLiberarMesa(Pedido pedido) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // 1. Cambiar estado del pedido a 'cerrado'
+            pedido.estado = EstadoPedido.cerrado;
+            pedidoDao.update(pedido);
+
+            // 2. Obtener la mesa y liberarla si no tiene otros pedidos activos
+            Mesa mesa = mesaDao.getMesaByIdSync(pedido.mesaId);
+            if (mesa != null) {
+                int pedidosActivos = pedidoDao.countPedidosActivosPorMesa(mesa.mesaId);
+                if (pedidosActivos == 0) {
+                    mesa.estado = EstadoMesa.libre;
+                    mesaDao.update(mesa);
+                }
+            }
+
+            // 3. Notificar a los observadores
+            pedidosChangedNotifier.postValue(true);
+        });
+    }
+
     public void reabrirPedido(Pedido pedido) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             pedido.estado = EstadoPedido.abierto;

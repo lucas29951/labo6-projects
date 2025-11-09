@@ -109,8 +109,11 @@ public class CuentaFragment extends Fragment {
                                 .navigate(R.id.action_accountFragment_to_editOrderFragment, args);
                         break;
                     case enviado:
-                        // Para pedidos enviados, mostramos un Toast como placeholder
-                        Toast.makeText(getContext(), "Funcionalidad para ver pedido enviado no implementada.", Toast.LENGTH_SHORT).show();
+                        args = new Bundle();
+                        args.putInt("pedidoId", pedido.pedido.pedidoId);
+                        args.putInt("mesaNumero", pedido.pedido.mesaId);
+                        NavHostFragment.findNavController(CuentaFragment.this)
+                                .navigate(R.id.action_accountFragment_to_sentOrderDetailFragment, args);
                         break;
                     case cerrado:
                         // Para pedidos cerrados, lo mismo que el botón "Ver"
