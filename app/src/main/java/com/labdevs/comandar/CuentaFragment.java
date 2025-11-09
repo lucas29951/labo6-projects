@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -91,8 +92,8 @@ public class CuentaFragment extends Fragment {
 
             @Override
             public void onDeleteClick(PedidoConResumen pedido) {
-                viewModel.eliminarPedido(pedido.pedido.pedidoId);
-                Toast.makeText(getContext(), "FUNCIONALIDAD: Eliminar pedido " + pedido.pedido.pedidoId, Toast.LENGTH_SHORT).show();
+                // Nueva llamada específica para la eliminación
+                mostrarDialogoConfirmacionEliminar(pedido);
             }
 
         });
@@ -174,8 +175,8 @@ public class CuentaFragment extends Fragment {
                     viewModel.editarPedido(pcr.pedido.pedidoId);
                     message = "FUNCIONALIDAD: Editar pedido " + pcr.pedido.pedidoId;
                 } else {
-                    viewModel.enviarACocina(pcr.pedido.pedidoId);
-                    message = "FUNCIONALIDAD: Enviar a cocina pedido " + pcr.pedido.pedidoId;
+                    viewModel.enviarPedidoACocina(pcr);
+                    message = "Pedido de la Mesa " + pcr.pedido.mesaId + " enviado a cocina.";
                 }
                 break;
             case enviado:
@@ -193,6 +194,22 @@ public class CuentaFragment extends Fragment {
                 break;
         }
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void mostrarDialogoConfirmacionEliminar(PedidoConResumen pcr) {
+        if (getContext() == null) return;
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirmar Eliminación")
+                .setMessage("¿Estás seguro de que quieres eliminar el pedido de la Mesa " + pcr.pedido.mesaId + "? Esta acción no se puede deshacer.")
+                .setPositiveButton("Eliminar", (dialog, which) -> {
+                    // Si el usuario confirma, llamamos al ViewModel
+                    viewModel.solicitarEliminacionPedido(pcr);
+                    Toast.makeText(getContext(), "Pedido eliminado.", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancelar", null) // No hace nada, solo cierra el diálogo
+                .setIcon(R.drawable.ic_delete_red)
+                .show();
     }
 
     @Override

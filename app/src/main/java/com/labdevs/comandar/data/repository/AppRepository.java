@@ -128,6 +128,43 @@ public class AppRepository {
     }
 
     // --- GESTIÓN DE PEDIDOS Y MENÚ ---
+
+    public void eliminarPedidoYLiberarMesa(Pedido pedido) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // 1. Obtener la mesa asociada al pedido antes de eliminarlo
+            Mesa mesa = mesaDao.getMesaByIdSync(pedido.mesaId);
+
+            // 2. Eliminar el pedido. Esto eliminará en cascada los detalles del pedido.
+            pedidoDao.delete(pedido);
+
+            // 3. Verificar si no quedan otros pedidos activos para esa mesa.
+            //    Esto es importante por si en el futuro se permiten múltiples pedidos por mesa.
+            int pedidosActivos = pedidoDao.countPedidosActivosPorMesa(mesa.mesaId);
+
+            // 4. Si la mesa existe y ya no tiene pedidos activos, la liberamos.
+            if (mesa != null && pedidosActivos == 0) {
+                mesa.estado = EstadoMesa.libre;
+                mesaDao.update(mesa);
+            }
+
+            // 5. Notificar a los observadores que los datos de pedidos han cambiado.
+            pedidosChangedNotifier.postValue(true);
+        });
+    }
+
+    public void enviarPedidoACocina(Pedido pedido) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // 1. Cambiar el estado del pedido a 'enviado'.
+            pedido.estado = EstadoPedido.enviado;
+
+            // 2. Actualizar el pedido en la base de datos.
+            pedidoDao.update(pedido);
+
+            // 3. Notificar a los observadores que los datos han cambiado.
+            pedidosChangedNotifier.postValue(true);
+        });
+    }
+
     public List<Mesa> getMesasAsignadasSync(int camareroId) {
         return mesaDao.getMesasByCamareroSync(camareroId);
     }

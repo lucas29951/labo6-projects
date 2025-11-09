@@ -2,6 +2,7 @@ package com.labdevs.comandar.data.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -51,4 +52,7 @@ public interface PedidoDao {
             "GROUP BY p.pedido_id " +
             "ORDER BY p.fecha_hora_creacion DESC")
     LiveData<List<PedidoConResumen>> getPedidosFiltrados(int camareroId, EstadoPedido estado, Date fechaInicio, Date fechaFin);
+
+    @Delete
+    void delete(Pedido pedido);
 }

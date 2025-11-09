@@ -127,8 +127,8 @@ public class CuentaViewModel extends AndroidViewModel {
         // Lógica futura para navegar a la pantalla de edición
     }
 
-    public void enviarACocina(int pedidoId) {
-        // Lógica futura para cambiar el estado del pedido a 'enviado'
+    public void enviarPedidoACocina(PedidoConResumen pcr) {
+        repository.enviarPedidoACocina(pcr.pedido);
     }
 
     public void volverAabrirPedido(int pedidoId) {
@@ -144,7 +144,7 @@ public class CuentaViewModel extends AndroidViewModel {
     }
 
     // Lógica para eliminar pedido
-    public void eliminarPedido(int pedidoId) {
-        // Lógica futura para eliminar el pedido de la base de datos
+    public void solicitarEliminacionPedido(PedidoConResumen pcr) {
+        repository.eliminarPedidoYLiberarMesa(pcr.pedido);
     }
 }
