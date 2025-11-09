@@ -97,6 +97,28 @@ public class CuentaFragment extends Fragment {
                 mostrarDialogoConfirmacionEliminar(pedido);
             }
 
+            @Override
+            public void onCardClick(PedidoConResumen pedido) {
+                switch (pedido.pedido.estado) {
+                    case abierto:
+                        // Si el pedido está abierto, el click en la tarjeta hace lo mismo que el botón "Editar"
+                        Bundle args = new Bundle();
+                        args.putInt("pedidoId", pedido.pedido.pedidoId);
+                        args.putInt("mesaNumero", pedido.pedido.mesaId);
+                        NavHostFragment.findNavController(CuentaFragment.this)
+                                .navigate(R.id.action_accountFragment_to_editOrderFragment, args);
+                        break;
+                    case enviado:
+                        // Para pedidos enviados, mostramos un Toast como placeholder
+                        Toast.makeText(getContext(), "Funcionalidad para ver pedido enviado no implementada.", Toast.LENGTH_SHORT).show();
+                        break;
+                    case cerrado:
+                        // Para pedidos cerrados, lo mismo que el botón "Ver"
+                        Toast.makeText(getContext(), "FUNCIONALIDAD: Ver detalle del pedido " + pedido.pedido.pedidoId, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
         });
         binding.recyclerViewPedidos.setAdapter(adapter);
     }

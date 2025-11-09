@@ -90,6 +90,8 @@ public class PedidoAdapter extends ListAdapter<PedidoConResumen, PedidoAdapter.P
             binding.buttonAccion1.setOnClickListener(v -> listener.onButton1Click(pcr));
             binding.buttonAccion2.setOnClickListener(v -> listener.onButton2Click(pcr));
             binding.buttonDelete.setOnClickListener(v -> listener.onDeleteClick(pcr));
+
+            itemView.setOnClickListener(v -> listener.onCardClick(pcr));
         }
     }
 
@@ -97,6 +99,7 @@ public class PedidoAdapter extends ListAdapter<PedidoConResumen, PedidoAdapter.P
         void onButton1Click(PedidoConResumen pedido);
         void onButton2Click(PedidoConResumen pedido);
         void onDeleteClick(PedidoConResumen pedido);
+        void onCardClick(PedidoConResumen pedido);
     }
 
     private static final DiffUtil.ItemCallback<PedidoConResumen> DIFF_CALLBACK = new DiffUtil.ItemCallback<PedidoConResumen>() {

@@ -27,6 +27,25 @@ public class MenuFragment extends Fragment {
     private MenuViewModel viewModel;
     private CategoryAdapter categoryAdapter;
     private ProductAdapter productAdapter;
+    private String navigationOrigin = null;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Leemos el argumento de origen al crear el fragmento
+        if (getArguments() != null) {
+            navigationOrigin = getArguments().getString("origin");
+        }
+
+        // Registramos el listener para el resultado del diálogo de añadir producto
+        getParentFragmentManager().setFragmentResultListener(AddProductDialogFragment.PRODUCT_ADDED_REQUEST_KEY, this, (requestKey, bundle) -> {
+            // Si el origen de la navegación fue EditOrderFragment...
+            if ("EditOrderFragment".equals(navigationOrigin)) {
+                // ...navegamos hacia atrás para volver a la pantalla de edición.
+                NavHostFragment.findNavController(MenuFragment.this).popBackStack();
+            }
+        });
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

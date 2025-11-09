@@ -29,9 +29,6 @@ public class EditOrderViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> _pedidoEliminado = new MutableLiveData<>(false);
     public LiveData<Boolean> getPedidoEliminado() { return _pedidoEliminado; }
 
-    private final MutableLiveData<Boolean> _navegarAMenu = new MutableLiveData<>(false);
-    public LiveData<Boolean> getNavegarAMenu() { return _navegarAMenu; }
-
     public EditOrderViewModel(@NonNull Application application) {
         super(application);
         repository = new AppRepository(application);
@@ -105,13 +102,8 @@ public class EditOrderViewModel extends AndroidViewModel {
         });
     }
 
-    public void solicitarAnadirItem() {
-        _navegarAMenu.setValue(true);
-    }
-
     public void onNavigationDone() {
         _pedidoEnviado.setValue(false);
         _pedidoEliminado.setValue(false);
-        _navegarAMenu.setValue(false);
     }
 }

@@ -29,6 +29,11 @@
             android:name="CAMARERO_ID"
             app:argType="integer"
             android:defaultValue="-1" />
+        <argument
+            android:name="origin"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment

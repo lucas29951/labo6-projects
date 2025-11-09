@@ -25,6 +25,7 @@ public class AddProductDialogFragment extends DialogFragment {
     private FragmentAddProductDialogBinding binding;
     private AddProductViewModel viewModel;
     private int cantidad = 1;
+    public static final String PRODUCT_ADDED_REQUEST_KEY = "productAddedRequest";
 
     static AddProductDialogFragment newInstance(int productoId, int camareroId) {
         AddProductDialogFragment fragment = new AddProductDialogFragment();
@@ -108,6 +109,8 @@ public class AddProductDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                 viewModel.onToastShown();
                 if (!message.contains("Por favor")) { // Si no es un error de validación
+                    // Envía un resultado al FragmentManager padre para notificar que se añadió un producto.
+                    getParentFragmentManager().setFragmentResult(PRODUCT_ADDED_REQUEST_KEY, new Bundle());
                     dismiss(); // Cerrar el diálogo después de añadir
                 }
             }

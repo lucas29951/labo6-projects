@@ -82,7 +82,15 @@ public class EditOrderFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        binding.fabAddItem.setOnClickListener(v -> viewModel.solicitarAnadirItem());
+        binding.fabAddItem.setOnClickListener(v -> {
+            // Preparamos el argumento para indicar el origen
+            Bundle args = new Bundle();
+            args.putString("origin", "EditOrderFragment");
+
+            // Usamos el NavController para navegar con los argumentos
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_editOrderFragment_to_menuFragment, args);
+        });
         binding.btnEnviarPedido.setOnClickListener(v -> viewModel.enviarPedido());
     }
 
@@ -109,13 +117,6 @@ public class EditOrderFragment extends Fragment {
             if(eliminado) {
                 Toast.makeText(getContext(), "El pedido ha sido eliminado", Toast.LENGTH_SHORT).show();
                 NavHostFragment.findNavController(this).popBackStack(R.id.accountFragment, false);
-                viewModel.onNavigationDone();
-            }
-        });
-
-        viewModel.getNavegarAMenu().observe(getViewLifecycleOwner(), navegar -> {
-            if(navegar){
-                NavHostFragment.findNavController(this).navigate(R.id.action_editOrderFragment_to_menuFragment);
                 viewModel.onNavigationDone();
             }
         });
