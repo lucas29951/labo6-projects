@@ -58,16 +58,6 @@ public class SentOrderDetailViewModel extends AndroidViewModel {
         });
     }
 
-    public void closeOrder() {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            Pedido pedido = repository.getPedidoByIdSync(pedidoId);
-            if (pedido != null) {
-                repository.cerrarPedidoYLiberarMesa(pedido);
-                _orderActionFinished.postValue(true);
-            }
-        });
-    }
-
     public void onNavigationDone() {
         _orderActionFinished.setValue(false);
     }

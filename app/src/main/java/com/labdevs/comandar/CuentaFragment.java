@@ -88,7 +88,15 @@ public class CuentaFragment extends Fragment {
 
             @Override
             public void onButton2Click(PedidoConResumen pedido) {
-                handleAction(pedido, false);
+                if (pedido.pedido.estado == EstadoPedido.enviado) {
+                    Bundle args = new Bundle();
+                    args.putInt("pedidoId", pedido.pedido.pedidoId);
+                    args.putInt("mesaNumero", pedido.pedido.mesaId);
+                    NavHostFragment.findNavController(CuentaFragment.this)
+                            .navigate(R.id.action_accountFragment_to_splitBillFragment, args);
+                } else {
+                    handleAction(pedido, false);
+                }
             }
 
             @Override

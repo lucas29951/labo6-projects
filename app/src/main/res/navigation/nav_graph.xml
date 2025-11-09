@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_accountFragment_to_sentOrderDetailFragment"
             app:destination="@id/sentOrderDetailFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_splitBillFragment"
+            app:destination="@id/splitBillFragment" />
     </fragment>
 
     <fragment
@@ -68,6 +71,22 @@
         android:name="com.labdevs.comandar.SentOrderDetailFragment"
         android:label="fragment_sent_order_detail"
         tools:layout="@layout/fragment_sent_order_detail" >
+        <argument
+            android:name="pedidoId"
+            app:argType="integer" />
+        <argument
+            android:name="mesaNumero"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_sentOrderDetailFragment_to_splitBillFragment"
+            app:destination="@id/splitBillFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/splitBillFragment"
+        android:name="com.labdevs.comandar.SplitBillFragment"
+        android:label="fragment_split_bill"
+        tools:layout="@layout/fragment_split_bill" >
         <argument
             android:name="pedidoId"
             app:argType="integer" />

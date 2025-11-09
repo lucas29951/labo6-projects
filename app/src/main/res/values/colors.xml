@@ -28,4 +28,13 @@
     <color name="circular_background">#E3F2FD</color>
     <color name="delete_button_background">#E57373</color> <!-- Rojo claro -->
 
+    <color name="design_default_color_primary">#6200EE</color>
+
+    <color name="person_chip_selected_background">#0277BD</color> <!-- Azul más oscuro -->
+    <color name="person_chip_selected_text">#FFFFFF</color>
+    <color name="person_chip_unselected_background">#37474F</color> <!-- Gris azulado oscuro -->
+    <color name="person_chip_unselected_text">#B0BEC5</color>
+    <color name="item_unassigned_background">#4E3434</color> <!-- Rojo oscuro sutil -->
+    <color name="item_unassigned_text">#FFCDD2</color>
+
 </resources>

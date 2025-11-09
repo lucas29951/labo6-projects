@@ -71,8 +71,11 @@ public class SentOrderDetailFragment extends Fragment {
             Toast.makeText(getContext(), "Pedido reabierto para edición.", Toast.LENGTH_SHORT).show();
         });
         binding.btnCloseOrder.setOnClickListener(v -> {
-            viewModel.closeOrder();
-            Toast.makeText(getContext(), "Pedido cerrado y mesa liberada.", Toast.LENGTH_SHORT).show();
+            Bundle args = new Bundle();
+            args.putInt("pedidoId", pedidoId);
+            args.putInt("mesaNumero", mesaNumero);
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_sentOrderDetailFragment_to_splitBillFragment, args);
         });
     }
 

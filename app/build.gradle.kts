@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation("at.favre.lib:bcrypt:0.10.2")
     implementation(libs.appcompat)
