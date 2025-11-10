@@ -84,21 +84,36 @@ public class SplitBillViewModel extends AndroidViewModel {
     }
 
     public void setSplitMode(SplitMode mode) {
+        if (_splitMode.getValue() == mode) return;
+
         _splitMode.setValue(mode);
-        // Cuando cambiamos de modo, reseteamos las asignaciones para evitar inconsistencias
+
+        if (mode == SplitMode.SINGLE_PAYMENT) {
+            setNumberOfPeople(1);
+        }
+
         List<BillItem> items = _billItems.getValue();
         if (items != null) {
-            for (BillItem item : items) {
-                item.assignments.clear();
+            List<BillItem> rebuilt = new ArrayList<>(items.size());
+            for (BillItem it : items) {
+                BillItem fresh = new BillItem(it.itemPedido); // assignments vacíos
+                rebuilt.add(fresh);
             }
-            _billItems.setValue(new ArrayList<>(items));
+            _billItems.setValue(rebuilt);
         }
+
         recalculateAllTotals();
     }
 
     public void setNumberOfPeople(int count) {
+        // No permitimos cambiar el número de personas en modo Pago Único
+        if (_splitMode.getValue() == SplitMode.SINGLE_PAYMENT && count > 1) {
+            return;
+        }
+
         if (count < 1) count = 1;
-        _numberOfPeople.setValue(count);
+        final int finalCount = count;
+        _numberOfPeople.setValue(finalCount);
 
         List<Person> newPeople = new ArrayList<>();
         for (int i = 1; i <= count; i++) {
@@ -127,19 +142,32 @@ public class SplitBillViewModel extends AndroidViewModel {
     }
 
     public void toggleItemAssignment(BillItem billItem) {
-        int currentPersonId = _selectedPersonId.getValue();
+        Integer currentPersonIdObj = _selectedPersonId.getValue();
+        if (currentPersonIdObj == null) return;
+        final int currentPersonId = currentPersonIdObj;
 
-        // La clave 'personId' es el ID de la persona, el valor 'quantity' ya no importa, siempre es 1.
-        if (billItem.assignments.containsKey(currentPersonId)) {
-            // Si ya está asignado, lo quitamos
-            billItem.assignments.remove(currentPersonId);
-        } else {
-            // Si no está asignado, lo añadimos
-            billItem.assignments.put(currentPersonId, 1); // El valor 1 es simbólico
+        List<BillItem> current = _billItems.getValue();
+        if (current == null) return;
+
+        List<BillItem> updated = new ArrayList<>(current.size());
+        for (BillItem it : current) {
+            if (it.itemPedido.productoId == billItem.itemPedido.productoId) {
+                // Clono el item y su mapa de asignaciones
+                BillItem copy = new BillItem(it.itemPedido);
+                copy.assignments = new java.util.HashMap<>(it.assignments);
+
+                if (copy.assignments.containsKey(currentPersonId)) {
+                    copy.assignments.remove(currentPersonId);
+                } else {
+                    copy.assignments.put(currentPersonId, 1);
+                }
+                updated.add(copy);
+            } else {
+                updated.add(it);
+            }
         }
 
-        // Forzamos la actualización del LiveData para que los observadores reaccionen
-        _billItems.setValue(new ArrayList<>(_billItems.getValue()));
+        _billItems.setValue(updated);
         recalculateAllTotals();
     }
 
@@ -147,47 +175,54 @@ public class SplitBillViewModel extends AndroidViewModel {
         List<BillItem> currentBillItems = _billItems.getValue();
         if (currentBillItems == null) return;
 
-        double total = currentBillItems.stream().mapToDouble(bi -> bi.itemPedido.getSubtotal()).sum();
+        double total = currentBillItems.stream()
+                .mapToDouble(bi -> bi.itemPedido.getSubtotal())
+                .sum();
         _orderTotal.setValue(total);
 
         SplitMode mode = _splitMode.getValue();
-        int numPeople = _numberOfPeople.getValue();
-        List<Person> currentPeople = _people.getValue();
+        Integer numPeopleObj = _numberOfPeople.getValue();
+        if (numPeopleObj == null) numPeopleObj = 1;
+        int numPeople = Math.max(1, numPeopleObj);
 
-        if(currentPeople == null) return;
-
-        for(Person p : currentPeople) p.totalAmount = 0.0;
+        // Construyo SIEMPRE una NUEVA lista de Person (ids 1..N), sin mutar las previas
+        List<Person> recomputed = new ArrayList<>(numPeople);
+        for (int i = 1; i <= numPeople; i++) {
+            recomputed.add(new Person(i));
+        }
 
         if (mode == SplitMode.ASSIGN_ITEMS) {
             for (BillItem item : currentBillItems) {
                 if (!item.assignments.isEmpty()) {
-                    // LÓGICA CLAVE: Dividir el subtotal del ítem entre las personas que lo tienen asignado.
                     double dividedPrice = item.itemPedido.getSubtotal() / item.assignments.size();
-                    item.assignments.forEach((personId, quantity) -> {
-                        // El 'personId - 1' es porque las listas se indexan desde 0
-                        if (personId - 1 < currentPeople.size()) {
-                            currentPeople.get(personId - 1).totalAmount += dividedPrice;
+                    for (Integer personId : item.assignments.keySet()) {
+                        int idx = personId - 1;
+                        if (idx >= 0 && idx < recomputed.size()) {
+                            recomputed.get(idx).totalAmount += dividedPrice;
                         }
-                    });
+                    }
                 }
             }
         } else if (mode == SplitMode.SPLIT_EQUALLY) {
             double amountPerPerson = total / numPeople;
-            for(Person p : currentPeople) p.totalAmount = amountPerPerson;
+            for (Person p : recomputed) p.totalAmount = amountPerPerson;
         } else { // SINGLE_PAYMENT
-            if(!currentPeople.isEmpty()){
-                currentPeople.get(0).totalAmount = total;
+            if (!recomputed.isEmpty()) {
+                recomputed.get(0).totalAmount = total;
             }
         }
 
-        _people.postValue(new ArrayList<>(currentPeople)); // postValue para hilos de fondo
+        // Publico NUEVA lista (objetos nuevos) => DiffUtil re-bindea chips y observers disparan
+        _people.setValue(recomputed);
 
-        // Update person summary list
-        int selectedPerson = _selectedPersonId.getValue();
+        // Summary de la persona seleccionada (no necesita clonado)
+        Integer selectedPerson = _selectedPersonId.getValue();
+        if (selectedPerson == null) selectedPerson = 1;
+        Integer finalSelectedPerson = selectedPerson;
         List<BillItem> summaryList = currentBillItems.stream()
-                .filter(item -> item.assignments.containsKey(selectedPerson))
-                .collect(Collectors.toList());
-        _personSummaryItems.postValue(summaryList);
+                .filter(item -> item.assignments.containsKey(finalSelectedPerson))
+                .collect(java.util.stream.Collectors.toList());
+        _personSummaryItems.setValue(summaryList);
     }
 
     public void onNavigationDone() {

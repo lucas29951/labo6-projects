@@ -16,9 +16,11 @@ import android.widget.Toast;
 import com.labdevs.comandar.adapters.PeopleAdapter;
 import com.labdevs.comandar.adapters.PersonSummaryAdapter;
 import com.labdevs.comandar.adapters.SplitBillItemAdapter;
+import com.labdevs.comandar.data.model.Person;
 import com.labdevs.comandar.databinding.FragmentSplitBillBinding;
 import com.labdevs.comandar.viewmodels.SplitBillViewModel;
 
+import java.util.List;
 import java.util.Locale;
 
 public class SplitBillFragment extends Fragment {
@@ -105,8 +107,14 @@ public class SplitBillFragment extends Fragment {
             } else {
                 binding.toggleButtonGroupMode.check(R.id.button_mode_equal);
             }
+            updatePersonTotalTop();
         });
-        viewModel.numberOfPeople.observe(getViewLifecycleOwner(), count -> binding.tvPeopleCount.setText(String.valueOf(count)));
+        viewModel.numberOfPeople.observe(getViewLifecycleOwner(), count -> {
+            if (count != null) {
+                binding.tvPeopleCount.setText(String.valueOf(count));
+                updatePersonTotalTop();
+            }
+        });
         viewModel.selectedPersonId.observe(getViewLifecycleOwner(), selectedId -> {
             peopleAdapter.setSelectedPersonId(selectedId);
             billItemAdapter.setSelectedPersonId(selectedId);
@@ -114,11 +122,13 @@ public class SplitBillFragment extends Fragment {
             binding.tvItemsSubheader.setText(getString(R.string.select_person_to_assign, selectedId));
             binding.tvSummaryHeader.setText(getString(R.string.summary_for_person, selectedId));
             binding.tvPersonTotalLabel.setText(getString(R.string.total_for_person, selectedId));
+            updatePersonTotalTop();
         });
 
         viewModel.people.observe(getViewLifecycleOwner(), people -> {
             if (people == null) return;
             peopleAdapter.submitList(new java.util.ArrayList<>(people));
+            updatePersonTotalTop();
             Integer selectedPersonId = viewModel.selectedPersonId.getValue();
             if (selectedPersonId != null && selectedPersonId > 0 && selectedPersonId <= people.size()) {
                 double total = people.get(selectedPersonId - 1).totalAmount;
@@ -130,6 +140,7 @@ public class SplitBillFragment extends Fragment {
         viewModel.billItems.observe(getViewLifecycleOwner(), billItems -> {
             if (billItems != null) {
                 billItemAdapter.submitList(new java.util.ArrayList<>(billItems));
+                updatePersonTotalTop();
             }
         });
         viewModel.personSummaryItems.observe(getViewLifecycleOwner(), summaryItems -> {
@@ -137,7 +148,7 @@ public class SplitBillFragment extends Fragment {
                 personSummaryAdapter.submitList(new java.util.ArrayList<>(summaryItems));
             }
         });
-        viewModel.orderTotal.observe(getViewLifecycleOwner(), total -> binding.tvOrderTotal.setText(String.format(Locale.US, "R$ %.2f", total)));
+        viewModel.orderTotal.observe(getViewLifecycleOwner(), total -> binding.tvOrderTotal.setText(String.format(Locale.US, "$%.2f", total)));
 
         viewModel.closeOrderSuccess.observe(getViewLifecycleOwner(), success -> {
             if(success) {
@@ -147,6 +158,17 @@ public class SplitBillFragment extends Fragment {
                 viewModel.onNavigationDone();
             }
         });
+    }
+
+    private void updatePersonTotalTop() {
+        List<Person> people = viewModel.people.getValue();
+        Integer selectedId = viewModel.selectedPersonId.getValue();
+        if (people != null && selectedId != null && selectedId > 0 && selectedId <= people.size()) {
+            double total = people.get(selectedId - 1).totalAmount;
+            binding.tvPersonTotalValue.setText(String.format(java.util.Locale.US, "$%.2f", total));
+        } else {
+            binding.tvPersonTotalValue.setText(String.format(java.util.Locale.US, "$%.2f", 0.0));
+        }
     }
 
     private void updateUiForSplitMode(SplitBillViewModel.SplitMode mode) {

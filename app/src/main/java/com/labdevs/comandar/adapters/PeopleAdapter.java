@@ -93,7 +93,10 @@ public class PeopleAdapter extends ListAdapter<Person, PeopleAdapter.PersonViewH
         }
         @Override
         public boolean areContentsTheSame(@NonNull Person oldItem, @NonNull Person newItem) {
-            return oldItem.totalAmount == newItem.totalAmount;
+            // Comparamos redondeado a centavos
+            long a = Math.round(oldItem.totalAmount * 100);
+            long b = Math.round(newItem.totalAmount * 100);
+            return a == b;
         }
     };
 }
