@@ -64,6 +64,19 @@
         <action
             android:id="@+id/action_accountFragment_to_splitBillFragment"
             app:destination="@id/splitBillFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_closedOrderDetailFragment"
+            app:destination="@id/closedOrderDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/closedOrderDetailFragment"
+        android:name="com.labdevs.comandar.ClosedOrderDetailFragment"
+        android:label="fragment_closed_order_detail"
+        tools:layout="@layout/fragment_closed_order_detail" >
+        <argument
+            android:name="pedidoId"
+            app:argType="integer" />
     </fragment>
 
     <fragment

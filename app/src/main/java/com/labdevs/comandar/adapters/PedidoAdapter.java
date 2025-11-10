@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.labdevs.comandar.R;
+import com.labdevs.comandar.data.entity.enums.EstadoPedido;
 import com.labdevs.comandar.data.model.PedidoConResumen;
 import com.labdevs.comandar.databinding.ItemPedidoCardBinding;
 
@@ -92,6 +93,17 @@ public class PedidoAdapter extends ListAdapter<PedidoConResumen, PedidoAdapter.P
             binding.buttonDelete.setOnClickListener(v -> listener.onDeleteClick(pcr));
 
             itemView.setOnClickListener(v -> listener.onCardClick(pcr));
+
+            if (pcr.pedido.estado == EstadoPedido.cerrado) {
+                // Para pedidos cerrados, tanto el botón como la tarjeta van al nuevo detalle
+                binding.buttonAccion1.setOnClickListener(v -> listener.onViewClosedDetailClick(pcr));
+                itemView.setOnClickListener(v -> listener.onViewClosedDetailClick(pcr));
+            } else {
+                binding.buttonAccion1.setOnClickListener(v -> listener.onButton1Click(pcr));
+                itemView.setOnClickListener(v -> listener.onCardClick(pcr));
+            }
+            binding.buttonAccion2.setOnClickListener(v -> listener.onButton2Click(pcr));
+            binding.buttonDelete.setOnClickListener(v -> listener.onDeleteClick(pcr));
         }
     }
 
@@ -100,6 +112,7 @@ public class PedidoAdapter extends ListAdapter<PedidoConResumen, PedidoAdapter.P
         void onButton2Click(PedidoConResumen pedido);
         void onDeleteClick(PedidoConResumen pedido);
         void onCardClick(PedidoConResumen pedido);
+        void onViewClosedDetailClick(PedidoConResumen pedido);
     }
 
     private static final DiffUtil.ItemCallback<PedidoConResumen> DIFF_CALLBACK = new DiffUtil.ItemCallback<PedidoConResumen>() {

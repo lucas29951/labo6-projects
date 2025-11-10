@@ -130,6 +130,14 @@ public class CuentaFragment extends Fragment {
                 }
             }
 
+            @Override
+            public void onViewClosedDetailClick(PedidoConResumen pedido) {
+                Bundle args = new Bundle();
+                args.putInt("pedidoId", pedido.pedido.pedidoId);
+                NavHostFragment.findNavController(CuentaFragment.this)
+                        .navigate(R.id.action_accountFragment_to_closedOrderDetailFragment, args);
+            }
+
         });
         binding.recyclerViewPedidos.setAdapter(adapter);
     }
