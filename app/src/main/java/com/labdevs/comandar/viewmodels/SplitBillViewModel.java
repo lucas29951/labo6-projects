@@ -27,7 +27,7 @@ public class SplitBillViewModel extends AndroidViewModel {
     private LiveData<List<ItemPedido>> originalItems;
     private Observer<List<ItemPedido>> originalItemsObserver;
 
-    private final MutableLiveData<SplitMode> _splitMode = new MutableLiveData<>(SplitMode.ASSIGN_ITEMS);
+    private final MutableLiveData<SplitMode> _splitMode = new MutableLiveData<>(SplitMode.SINGLE_PAYMENT);
     public LiveData<SplitMode> splitMode = _splitMode;
 
     private final MutableLiveData<Integer> _numberOfPeople = new MutableLiveData<>(1);
@@ -72,8 +72,27 @@ public class SplitBillViewModel extends AndroidViewModel {
         setNumberOfPeople(1);
     }
 
+    public void confirmAndCloseOrder() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            Pedido pedido = repository.getPedidoByIdSync(pedidoId);
+            if(pedido != null) {
+                repository.cerrarPedidoYLiberarMesa(pedido);
+                _closeOrderSuccess.postValue(true);
+            }
+        });
+
+    }
+
     public void setSplitMode(SplitMode mode) {
         _splitMode.setValue(mode);
+        // Cuando cambiamos de modo, reseteamos las asignaciones para evitar inconsistencias
+        List<BillItem> items = _billItems.getValue();
+        if (items != null) {
+            for (BillItem item : items) {
+                item.assignments.clear();
+            }
+            _billItems.setValue(new ArrayList<>(items));
+        }
         recalculateAllTotals();
     }
 
@@ -89,16 +108,6 @@ public class SplitBillViewModel extends AndroidViewModel {
 
         if (_selectedPersonId.getValue() > count) {
             _selectedPersonId.setValue(count);
-        }
-
-        // Desasignar ítems si se reduce el número de personas
-        List<BillItem> currentItems = _billItems.getValue();
-        if (currentItems != null) {
-            for (BillItem item : currentItems) {
-                int finalCount = count;
-                item.assignedToPersonIds.removeIf(personId -> personId > finalCount);
-            }
-            _billItems.setValue(new ArrayList<>(currentItems));
         }
 
         recalculateAllTotals();
@@ -117,24 +126,21 @@ public class SplitBillViewModel extends AndroidViewModel {
         recalculateAllTotals();
     }
 
-    public void toggleItemAssignment(int productoId) {
-        List<BillItem> currentItems = _billItems.getValue();
+    public void toggleItemAssignment(BillItem billItem) {
         int currentPersonId = _selectedPersonId.getValue();
 
-        if (currentItems != null) {
-            for (BillItem item : currentItems) {
-                if (item.itemPedido.productoId == productoId) {
-                    if (item.assignedToPersonIds.contains(currentPersonId)) {
-                        item.assignedToPersonIds.remove(Integer.valueOf(currentPersonId));
-                    } else {
-                        item.assignedToPersonIds.add(currentPersonId);
-                    }
-                    break;
-                }
-            }
-            _billItems.setValue(new ArrayList<>(currentItems));
-            recalculateAllTotals();
+        // La clave 'personId' es el ID de la persona, el valor 'quantity' ya no importa, siempre es 1.
+        if (billItem.assignments.containsKey(currentPersonId)) {
+            // Si ya está asignado, lo quitamos
+            billItem.assignments.remove(currentPersonId);
+        } else {
+            // Si no está asignado, lo añadimos
+            billItem.assignments.put(currentPersonId, 1); // El valor 1 es simbólico
         }
+
+        // Forzamos la actualización del LiveData para que los observadores reaccionen
+        _billItems.setValue(new ArrayList<>(_billItems.getValue()));
+        recalculateAllTotals();
     }
 
     private void recalculateAllTotals() {
@@ -150,16 +156,19 @@ public class SplitBillViewModel extends AndroidViewModel {
 
         if(currentPeople == null) return;
 
-        // Reset totals
         for(Person p : currentPeople) p.totalAmount = 0.0;
 
         if (mode == SplitMode.ASSIGN_ITEMS) {
             for (BillItem item : currentBillItems) {
-                if (item.isAssigned()) {
-                    double dividedPrice = item.itemPedido.getSubtotal() / item.assignedToPersonIds.size();
-                    for (Integer personId : item.assignedToPersonIds) {
-                        currentPeople.get(personId - 1).totalAmount += dividedPrice;
-                    }
+                if (!item.assignments.isEmpty()) {
+                    // LÓGICA CLAVE: Dividir el subtotal del ítem entre las personas que lo tienen asignado.
+                    double dividedPrice = item.itemPedido.getSubtotal() / item.assignments.size();
+                    item.assignments.forEach((personId, quantity) -> {
+                        // El 'personId - 1' es porque las listas se indexan desde 0
+                        if (personId - 1 < currentPeople.size()) {
+                            currentPeople.get(personId - 1).totalAmount += dividedPrice;
+                        }
+                    });
                 }
             }
         } else if (mode == SplitMode.SPLIT_EQUALLY) {
@@ -171,24 +180,14 @@ public class SplitBillViewModel extends AndroidViewModel {
             }
         }
 
-        _people.setValue(new ArrayList<>(currentPeople));
+        _people.postValue(new ArrayList<>(currentPeople)); // postValue para hilos de fondo
 
         // Update person summary list
         int selectedPerson = _selectedPersonId.getValue();
         List<BillItem> summaryList = currentBillItems.stream()
-                .filter(item -> item.assignedToPersonIds.contains(selectedPerson))
+                .filter(item -> item.assignments.containsKey(selectedPerson))
                 .collect(Collectors.toList());
-        _personSummaryItems.setValue(summaryList);
-    }
-
-    public void confirmAndCloseOrder() {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            Pedido pedido = repository.getPedidoByIdSync(pedidoId);
-            if(pedido != null) {
-                repository.cerrarPedidoYLiberarMesa(pedido);
-                _closeOrderSuccess.postValue(true);
-            }
-        });
+        _personSummaryItems.postValue(summaryList);
     }
 
     public void onNavigationDone() {

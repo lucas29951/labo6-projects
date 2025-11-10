@@ -16,6 +16,11 @@ import java.util.Locale;
 
 public class PersonSummaryAdapter extends ListAdapter<BillItem, PersonSummaryAdapter.SummaryViewHolder> {
 
+    private int personId;
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
     public PersonSummaryAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -29,7 +34,7 @@ public class PersonSummaryAdapter extends ListAdapter<BillItem, PersonSummaryAda
 
     @Override
     public void onBindViewHolder(@NonNull SummaryViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), personId);
     }
 
     static class SummaryViewHolder extends RecyclerView.ViewHolder {
@@ -40,13 +45,17 @@ public class PersonSummaryAdapter extends ListAdapter<BillItem, PersonSummaryAda
             this.binding = binding;
         }
 
-        void bind(BillItem billItem) {
-            String name = String.format(Locale.getDefault(), "%dx %s", billItem.itemPedido.cantidad, billItem.itemPedido.nombreProducto);
+        void bind(BillItem billItem, int personId) {
+            int totalQuantityInOrder = billItem.itemPedido.cantidad;
+            int quantityAssignedToThisPerson = billItem.getQuantityAssignedToPerson(personId);
+
+            String name = String.format(Locale.getDefault(), "%dx %s", quantityAssignedToThisPerson, billItem.itemPedido.nombreProducto);
             double price = billItem.itemPedido.getSubtotal();
 
-            if (billItem.assignedToPersonIds.size() > 1) {
+            // Si el ítem original se dividió, el nombre lo refleja
+            if (billItem.assignments.size() > 1) {
                 name += " " + itemView.getContext().getString(R.string.item_divided);
-                price /= billItem.assignedToPersonIds.size();
+                price /= billItem.assignments.size();
             }
 
             binding.tvSummaryItemName.setText(name);
@@ -61,7 +70,7 @@ public class PersonSummaryAdapter extends ListAdapter<BillItem, PersonSummaryAda
         }
         @Override
         public boolean areContentsTheSame(@NonNull BillItem oldItem, @NonNull BillItem newItem) {
-            return oldItem.assignedToPersonIds.size() == newItem.assignedToPersonIds.size();
+            return oldItem.assignments.equals(newItem.assignments);
         }
     };
 }
