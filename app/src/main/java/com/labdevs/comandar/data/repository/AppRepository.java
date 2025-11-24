@@ -9,6 +9,7 @@ import com.labdevs.comandar.data.dao.CamareroDao;
 import com.labdevs.comandar.data.dao.CategoriaProductoDao;
 import com.labdevs.comandar.data.dao.DetallePedidoDao;
 import com.labdevs.comandar.data.dao.MesaDao;
+import com.labdevs.comandar.data.dao.NotificacionDao;
 import com.labdevs.comandar.data.dao.PedidoDao;
 import com.labdevs.comandar.data.dao.ProductoDao;
 import com.labdevs.comandar.data.database.AppDatabase;
@@ -16,6 +17,7 @@ import com.labdevs.comandar.data.entity.Camarero;
 import com.labdevs.comandar.data.entity.CategoriaProducto;
 import com.labdevs.comandar.data.entity.DetallePedido;
 import com.labdevs.comandar.data.entity.Mesa;
+import com.labdevs.comandar.data.entity.Notificacion;
 import com.labdevs.comandar.data.entity.Pedido;
 import com.labdevs.comandar.data.entity.Producto;
 import com.labdevs.comandar.data.entity.enums.EstadoMesa;
@@ -36,6 +38,7 @@ public class AppRepository {
     private final CategoriaProductoDao categoriaProductoDao;
     private final ProductoDao productoDao;
     private final DetallePedidoDao detallePedidoDao;
+    private final NotificacionDao notificacionDao;
 
     // LiveData que pueden ser observados globalmente
     private final LiveData<List<Mesa>> allMesas;
@@ -56,9 +59,39 @@ public class AppRepository {
         categoriaProductoDao = db.categoriaProductoDao();
         productoDao = db.productoDao();
         detallePedidoDao = db.detallePedidoDao();
+        notificacionDao = db.notificacionDao();
 
         allMesas = mesaDao.getAllMesas();
         allMesasConCamarero = mesaDao.getMesasConCamarero();
+    }
+
+    // --- GESTIÓN DE NOTIFICACIONES (NUEVO) ---
+
+    public LiveData<List<Notificacion>> getNotificacionesNoLeidas() {
+        return notificacionDao.getNotificacionesNoLeidas();
+    }
+
+    public LiveData<List<Notificacion>> getNotificacionesDeMesa(int mesaId) {
+        return notificacionDao.getNotificacionesPorMesa(mesaId);
+    }
+
+    public void crearNotificacion(Notificacion notificacion) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            notificacionDao.insert(notificacion);
+        });
+    }
+
+    public void marcarNotificacionComoLeida(Notificacion notificacion) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            notificacion.leida = true;
+            notificacionDao.update(notificacion);
+        });
+    }
+
+    public void marcarTodasLeidasPorMesa(int mesaId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            notificacionDao.marcarTodasComoLeidasPorMesa(mesaId);
+        });
     }
 
     // --- GESTIÓN DE PERFIL ---

@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Camarero.class, Mesa.class, Pedido.class, CategoriaProducto.class, Producto.class, DetallePedido.class},
-        version = 2,
+@Database(entities = {Camarero.class, Mesa.class, Pedido.class, CategoriaProducto.class, Producto.class, DetallePedido.class, Notificacion.class},
+        version = 3,
         exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -41,6 +41,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoriaProductoDao categoriaProductoDao();
     public abstract ProductoDao productoDao();
     public abstract DetallePedidoDao detallePedidoDao();
+    public abstract NotificacionDao notificacionDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -80,6 +81,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     ProductoDao productoDao = database.productoDao();
                     PedidoDao pedidoDao = database.pedidoDao();
                     DetallePedidoDao detallePedidoDao = database.detallePedidoDao();
+                    NotificacionDao notificacionDao = database.notificacionDao();
 
                     // --- 1. GESTIÓN DE FOTOS DE PERFIL ---
                     File profileImagesDir = new File(context.getFilesDir(), "profile_images");
