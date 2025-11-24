@@ -224,7 +224,7 @@
 
 - **Diagrama interactivo:** [dbdiagram.io](https://dbdiagram.io/d/DB-App-Camarero-68e12497d2b621e42241baa3)
 
-<img width="1303" height="1029" alt="DB - App Camarero" src="https://github.com/user-attachments/assets/96b400c9-3e8c-4a0b-8f80-cb02f4112b9e" />
+<img width="1303" height="1051" alt="DB - App Camarero" src="https://github.com/user-attachments/assets/e9bc95a8-b2b8-480b-8225-5d71834ad096" />
 
 
 ## Figma
