@@ -232,6 +232,7 @@ public class RegisterActivity extends AppCompatActivity {
         String apellido = binding.inputRegisterLastname.getText().toString().trim();
         String email = binding.inputRegisterEmail.getText().toString().trim();
         String password = binding.inputRegisterPassword.getText().toString();
+        String confirmPassword = binding.inputRegisterConfirmPassword.getText().toString();
         String telefono = binding.inputRegisterPhone.getText().toString().trim();
 
         // --- LÓGICA PARA LA IMAGEN POR DEFECTO ---
@@ -247,7 +248,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-        viewModel.registrarCamarero(nombre, apellido, email, password, telefono, finalImagePath);
+        viewModel.registrarCamarero(nombre, apellido, email, password, confirmPassword, telefono, finalImagePath);
     }
 
     // Método de utilidad para obtener la extensión del archivo desde un Uri
