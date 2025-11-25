@@ -26,8 +26,8 @@ public class RegisterViewModel extends AndroidViewModel {
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getRegistroExitoso() { return registroExitoso; }
 
-    public void registrarCamarero(String nombre, String apellido, String email, String password, String telefono, String imagen) {
-        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || password.isEmpty() || imagen.isEmpty()) {
+    public void registrarCamarero(String nombre, String apellido, String email, String password, String confirmPassword, String telefono, String imagen) {
+        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || imagen.isEmpty()) {
             error.setValue("Todos los campos son obligatorios.");
             return;
         }
@@ -37,6 +37,16 @@ public class RegisterViewModel extends AndroidViewModel {
         }
         if (password.length() < 6) {
             error.setValue("La contraseña debe tener al menos 6 caracteres.");
+            return;
+        }
+
+        if (confirmPassword.length() < 6) {
+            error.setValue("La contraseña debe tener al menos 6 caracteres.");
+            return;
+        }
+
+        if (password.compareTo(confirmPassword) != 0) {
+            error.setValue("Las contraseñas deben ser iguales.");
             return;
         }
 
