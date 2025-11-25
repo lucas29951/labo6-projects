@@ -148,7 +148,10 @@ public class ProfileFragment extends Fragment {
             builder.setMessage("¿Estás seguro de que quieres cerrar sesión?");
         }
         builder.setPositiveButton("Confirmar", (dialog, which) -> {
-            if (viewModel != null) viewModel.logout();
+            if (viewModel != null) {
+                viewModel.logout();
+                LoginActivity.clearSavedSession(getContext());
+            }
         });
         builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
         builder.create().show();
