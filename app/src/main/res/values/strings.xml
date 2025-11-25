@@ -14,6 +14,7 @@
     <string name="title_register">Crear cuenta</string>
     <string name="name_input">Nombre/s</string>
     <string name="lastname_input">Apellido/s</string>
+    <string name="confirm_password_input">Confirmar contraseña</string>
     <string name="phone_input">Telefono o celular</string>
     <string name="photo_input">Seleccione una foto de perfil...</string>
     <string name="register_button">Crear cuenta</string>
