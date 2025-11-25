@@ -1,6 +1,8 @@
 package com.labdevs.comandar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,6 +16,9 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private LoginViewModel viewModel;
     public static final String CAMARERO_ID_KEY = "CAMARERO_ID";
+    public static final String PREFS_NAME = "USER_PREFS";
+    public static final String PREF_REMEMBER = "remember_session";
+    public static final String PREF_USER_ID = "saved_user_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        checkSavedSession();
 
         binding.buttonLogin.setOnClickListener(v -> {
             String email = binding.inputEmail.getText().toString().trim();
@@ -32,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.getCamareroLogueado().observe(this, camarero -> {
             if (camarero != null) {
                 Toast.makeText(this, "Bienvenido " + camarero.nombre, Toast.LENGTH_SHORT).show();
+                
+                saveUserSession(camarero.camareroId);
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra(CAMARERO_ID_KEY, camarero.camareroId);
@@ -59,5 +68,42 @@ public class LoginActivity extends AppCompatActivity {
             // Lógica para "Olvidé mi contraseña"
             Toast.makeText(this, "Funcionalidad no implementada.", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void saveUserSession(int idUser) {
+        if (binding.checkboxRemember.isChecked()) {
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            editor.putBoolean(PREF_REMEMBER, true);
+            editor.putInt(PREF_USER_ID, idUser);
+            editor.apply();
+
+            Log.d("LoginActivity", "Sesion guardada. USER_ID=" + idUser);
+        }
+    }
+
+    private void checkSavedSession() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean remember = prefs.getBoolean(PREF_REMEMBER, false);
+
+        if (remember) {
+            int savedId = prefs.getInt(PREF_USER_ID, -1);
+
+            if (savedId != -1) {
+                Log.d("LoginActivity", "Sesion detectada. USER_ID=" + savedId);
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra(CAMARERO_ID_KEY, savedId);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
+
+    public static void clearSavedSession(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().clear().apply();
     }
 }
