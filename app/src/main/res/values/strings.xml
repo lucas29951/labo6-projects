@@ -5,6 +5,7 @@
     <string name="title_login">Iniciar sesión</string>
     <string name="email_input">Correo electrónico</string>
     <string name="password_input">Contraseña</string>
+    <string name="remember_label">Recordar sesion</string>
     <string name="forgot_link">¿Olvidaste tu contraseña?</string>
     <string name="login_button">Iniciar sesión</string>
     <string name="register_link">¿No tienes una cuenta? Registrate</string>
