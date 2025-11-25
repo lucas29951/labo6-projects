@@ -15,8 +15,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val apiKey: String = project.properties["MAPS_API_KEY"] as String
-        manifestPlaceholders["MAPS_API_KEY"] = apiKey
+        //val apiKey = project.findProperty("MAPS_API_KEY") as String
+        //manifestPlaceholders["MAPS_API_KEY"] = apiKey
     }
 
     buildTypes {
@@ -56,6 +56,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:$nav_version")
     implementation("androidx.navigation:navigation-ui:$nav_version")
 
-    implementation("com.google.android.gms:play-services-maps:19.2.0")
-    implementation("com.google.android.gms:play-services-location:21.3.0")
+    //implementation("com.google.android.gms:play-services-maps:19.2.0")
+    //implementation("com.google.android.gms:play-services-location:21.3.0")
 }
