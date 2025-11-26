@@ -33,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         binding.buttonLogin.setOnClickListener(v -> {
             String email = binding.inputEmail.getText().toString().trim();
             String password = binding.inputPassword.getText().toString();
-            viewModel.iniciarSesion(email, password);
+            //viewModel.iniciarSesion(email, password);
+            viewModel.iniciarSesionConAPI(email, password);
         });
 
         viewModel.getCamareroLogueado().observe(this, camarero -> {
@@ -45,6 +46,23 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra(CAMARERO_ID_KEY, camarero.camareroId);
                 Log.d("LoginActivity", "Enviando CAMARERO_ID: " + camarero.camareroId); // DEBUG
+                // Estas flags limpian el historial de navegación para que el usuario no pueda
+                // volver a la pantalla de login con el botón de "atrás".
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        viewModel.getUserLogueado().observe(this, user -> {
+            if (user != null) {
+                Toast.makeText(this, "Bienvenido " + user.firstName, Toast.LENGTH_SHORT).show();
+
+                saveUserSession(Integer.parseInt(user.id));
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra(CAMARERO_ID_KEY, user.id);
+                Log.d("LoginActivity", "Enviando CAMARERO_ID: " + user.id); // DEBUG
                 // Estas flags limpian el historial de navegación para que el usuario no pueda
                 // volver a la pantalla de login con el botón de "atrás".
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
