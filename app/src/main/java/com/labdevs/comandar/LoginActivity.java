@@ -68,6 +68,11 @@ public class LoginActivity extends AppCompatActivity {
             // Lógica para "Olvidé mi contraseña"
             Toast.makeText(this, "Funcionalidad no implementada.", Toast.LENGTH_SHORT).show();
         });
+
+        binding.infoLocationLink.setOnClickListener(v -> {
+            // Logica para mostrar el mapa y la direccion del local
+            Toast.makeText(this, "Funcionalidad no implementada.", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void saveUserSession(int idUser) {
