@@ -80,4 +80,16 @@
         android:focusable="true"
         android:text="@string/register_link"
         android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/info_location_link"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/location_link"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
 </LinearLayout>
