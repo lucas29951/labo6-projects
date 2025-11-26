@@ -25,7 +25,10 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.labdevs.comandar.data.database.AppDatabase;
+import com.labdevs.comandar.data.dto.RegisterRequest;
+import com.labdevs.comandar.data.dto.UserResponse;
 import com.labdevs.comandar.databinding.ActivityRegisterBinding;
+import com.labdevs.comandar.service.RetrofitClient;
 import com.labdevs.comandar.viewmodels.RegisterViewModel;
 
 import java.io.File;
@@ -34,6 +37,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -254,5 +261,15 @@ public class RegisterActivity extends AppCompatActivity {
     // Método de utilidad para obtener la extensión del archivo desde un Uri
     public String getExtensionFromUri(@NonNull Context context, @NonNull Uri uri) {
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(context.getContentResolver().getType(uri));
+    }
+
+    private void checkInternetPermission() {
+        // Se verifica si la aplicacion tiene el permiso
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Uted tiene los permisos de internet", Toast.LENGTH_SHORT).show();
+        } else {
+            // Si no tiene los permisos se los solicita
+            requestPermissionLauncher.launch(Manifest.permission.INTERNET);
+        }
     }
 }
