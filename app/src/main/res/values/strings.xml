@@ -9,6 +9,7 @@
     <string name="forgot_link">¿Olvidaste tu contraseña?</string>
     <string name="login_button">Iniciar sesión</string>
     <string name="register_link">¿No tienes una cuenta? Registrate</string>
+    <string name="location_link">Consultar informacion del local</string>
 
     <!--  REGISTER VIEW STRINGS  -->
     <string name="title_register">Crear cuenta</string>
